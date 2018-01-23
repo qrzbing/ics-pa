@@ -164,6 +164,7 @@ static int cmd_x(char *args){
             addr+=8;
 
 
+            printf("\n");
             addr+=8;
         }
         if(n%2==1) printf("\n");
