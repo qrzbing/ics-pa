@@ -40,6 +40,8 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args);
 
+static int cmd_info(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -48,8 +50,9 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  /* TODO : Add more commands */
   { "si", "Step command", cmd_si },
-  /* TODO: Add more commands */
+  { "info", "Print register", cmd_info },
 
 };
 
@@ -80,7 +83,6 @@ static int cmd_help(char *args) {
 
 static int cmd_si(char *args) {
     char *arg = strtok(NULL," ");
-    //int i;
 
     if(arg == NULL) {
         /* no argument given */
@@ -89,11 +91,29 @@ static int cmd_si(char *args) {
     else {
         int i = atoi(arg);
         if(i == 0) {
+            /* illegal command */
             printf("Illegal command '%s'\n", arg);
         }
         cpu_exec(i);
     }
     
+    return 0;
+}
+
+static int cmd_info(char *args){
+    char *arg = strtok(NULL," ");
+
+    if(arg==NULL) {
+        printf("default\n");
+    }
+    else{
+        if(strcmp(arg,"r")==0){
+            printf("eax: %d\n",cpu.eax);
+        }
+        else{
+            printf("default\n");
+        }
+    }
     return 0;
 }
 
