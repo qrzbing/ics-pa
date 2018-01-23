@@ -95,6 +95,7 @@ static int cmd_si(char *args) {
         if(i == 0) {
             /* illegal command */
             printf("Illegal command '%s'\n", arg);
+            return -1;
         }
         cpu_exec(i);
     }
@@ -145,7 +146,15 @@ static int cmd_info(char *args){
 static int cmd_x(char *args){
     char *arg1=strtok(NULL," ");
     char *arg2=strtok(NULL," ");
-    printf("%s\n%s\n",arg1,arg2);
+    if(arg1==NULL||arg2==NULL){
+        printf("Invalid command\n");
+        return -1;
+    }
+    else{
+        int n=atoi(arg1);
+        long addr=strtol(arg2,NULL,16);
+        printf("%d %ld\n",n,addr);
+    }
     return 0;
 }
 
