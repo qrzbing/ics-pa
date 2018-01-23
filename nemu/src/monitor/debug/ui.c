@@ -158,7 +158,7 @@ static int cmd_x(char *args){
             int j=0;
             char s[20];
             sprintf(s,"%lx: ",addr);
-            printf("%s ",s);
+            printf("0x%s ",s);
             printf("0x");
             for(;j<8;++j){
                 printf("%02x",pmem[addr+j]);
