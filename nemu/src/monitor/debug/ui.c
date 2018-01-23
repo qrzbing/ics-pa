@@ -161,14 +161,14 @@ static int cmd_x(char *args){
             printf("%s ",s);
             printf("0x");
             for(;j<8;++j){
-                printf("%x",pmem[addr+j]);
+                printf("%02x",pmem[addr+j]);
             }
             printf(" ");
             j=0;
             if(++i>=n) break;
             addr+=8;
             for(;j<8;++j){
-                printf("%x",pmem[addr+j]);
+                printf("%02x",pmem[addr+j]);
             }
             printf("\n");
             addr+=8;
