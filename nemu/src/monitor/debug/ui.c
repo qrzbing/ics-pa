@@ -153,7 +153,19 @@ static int cmd_x(char *args){
     else{
         int n=atoi(arg1);
         long addr=strtol(arg2,NULL,16);
-        printf("%d %ld\n",n,addr);
+        int i=0;
+        for(;i<n;++i){
+            //int j=0;
+            char s[20];
+            sprintf(s,"%lx: ",addr);
+            printf("%s",s);
+
+            if(++i>=n) break;
+            addr+=8;
+            sprintf(s,"%lx: ",addr);
+            printf("%s\n",s);
+        }
+        if(n%2==1) printf("\n");
     }
     return 0;
 }
