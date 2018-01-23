@@ -84,13 +84,11 @@ static int cmd_si(char *args) {
 
     if(arg == NULL) {
         /* no argument given */
-        
-        printf("0\n");
+        cpu_exec(1); 
     }
     else {
         printf("%s\n",arg);
     }
-    
     
     return 0;
 }
