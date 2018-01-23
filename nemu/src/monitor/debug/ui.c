@@ -155,15 +155,21 @@ static int cmd_x(char *args){
         long addr=strtol(arg2,NULL,16);
         int i=0;
         for(;i<n;++i){
-            //int j=0;
+            int j=0;
             char s[20];
             sprintf(s,"%lx: ",addr);
-            printf("%s",s);
-
+            printf("%s ",s);
+            printf("0x");
+            for(;j<8;++j){
+                printf("%02x",pmem[addr+j]);
+            }
+            printf(" ");
+            j=0;
             if(++i>=n) break;
             addr+=8;
-
-
+            for(;j<8;++j){
+                printf("%02x",pmem[addr+j]);
+            }
             printf("\n");
             addr+=8;
         }
