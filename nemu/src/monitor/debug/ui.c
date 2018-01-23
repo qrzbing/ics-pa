@@ -162,8 +162,9 @@ static int cmd_x(char *args){
 
             if(++i>=n) break;
             addr+=8;
-            sprintf(s,"%lx: ",addr);
-            printf("%s\n",s);
+
+
+            addr+=8;
         }
         if(n%2==1) printf("\n");
     }
