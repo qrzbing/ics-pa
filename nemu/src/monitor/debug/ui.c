@@ -78,10 +78,20 @@ static int cmd_help(char *args) {
   return 0;
 }
 
-static int cmd_si(char *args){
-    //char *arg = strtok(NULL," ");
+static int cmd_si(char *args) {
+    char *arg = strtok(NULL," ");
     //int i;
-    printf("test ok\n");
+
+    if(arg == NULL) {
+        /* no argument given */
+        
+        printf("0\n");
+    }
+    else {
+        printf("%s\n",arg);
+    }
+    
+    
     return 0;
 }
 
