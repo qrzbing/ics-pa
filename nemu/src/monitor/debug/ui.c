@@ -108,7 +108,15 @@ static int cmd_info(char *args){
     }
     else{
         if(strcmp(arg,"r")==0){
-            printf("eax: %d\n",cpu.eax);
+            printf("eax: %20d\n",cpu.eax);
+            printf("ecx: %20d\n",cpu.ecx);
+            printf("edx: %20d\n",cpu.edx);
+            printf("ebx: %20d\n",cpu.ebx);
+            printf("esp: %20d\n",cpu.esp);
+            printf("ebp: %20d\n",cpu.ebp);
+            printf("esi: %20d\n",cpu.esi);
+            printf("edi: %20d\n",cpu.edi);
+            printf("ax: %20d\n",reg_w(R_AX));
         }
         else{
             printf("default\n");
