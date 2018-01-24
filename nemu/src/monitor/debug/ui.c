@@ -146,12 +146,20 @@ static int cmd_info(char *args){
 
 static int cmd_x(char *args){
     char *arg1=strtok(NULL," ");
-    char *arg2=strtok(NULL," ");
-    if(arg1==NULL||arg2==NULL){
+    char line_cmd[80]="";
+    while(true){
+        char *arg2=strtok(NULL," ");
+        if(arg2==NULL) break;
+        strcat(line_cmd,arg2);
+    }
+    printf("%s\n",line_cmd);
+    return 0;
+    if(arg1==NULL){
         printf("Invalid command\n");
         return -1;
     }
     else{
+        char arg2[1];
         bool flag;
         expr(arg2,&flag);
         if(flag==true) printf("OK\n");
