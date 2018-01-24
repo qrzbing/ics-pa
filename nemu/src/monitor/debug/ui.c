@@ -152,7 +152,8 @@ static int cmd_x(char *args){
         return -1;
     }
     else{
-        bool flag=true;
+        bool flag;
+        expr(arg2,&flag);
         if(flag==true) printf("OK\n");
         else {
             printf("error\n");
