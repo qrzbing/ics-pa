@@ -152,7 +152,14 @@ static int cmd_x(char *args){
         if(arg2==NULL) break;
         strcat(line_cmd,arg2);
     }
-    printf("%s\n",line_cmd);
+    //printf("%s\n",line_cmd);
+    bool success;
+    expr(line_cmd,&success);
+    if(success==true) printf("OK\n");
+    else{
+        printf("Error\n");
+        return -1;
+    }
     return 0;
     if(arg1==NULL){
         printf("Invalid command\n");
