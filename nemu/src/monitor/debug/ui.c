@@ -143,6 +143,7 @@ static int cmd_info(char *args){
     return 0;
 }
 
+
 static int cmd_x(char *args){
     char *arg1=strtok(NULL," ");
     char *arg2=strtok(NULL," ");
@@ -151,6 +152,12 @@ static int cmd_x(char *args){
         return -1;
     }
     else{
+        bool flag=true;
+        if(flag==true) printf("OK\n");
+        else {
+            printf("error\n");
+            return -1;
+        }
         int n=atoi(arg1);
         long addr=strtol(arg2,NULL,16);
         int i=0;
@@ -174,6 +181,7 @@ static int cmd_x(char *args){
             addr+=8;
         }
         if(n%2==1) printf("\n");
+        
     }
     return 0;
 }
