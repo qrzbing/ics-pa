@@ -79,6 +79,18 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
+            case TK_NOTYPE: {
+                printf("Case TK_NOTYPE\n");
+                break;
+            }
+            case '+':{
+                printf("Case +\n");
+                break;
+            }
+            case TK_EQ: {
+                printf("Case TK_EQUAL\n");
+                break;
+            }
           default: TODO();
         }
 
