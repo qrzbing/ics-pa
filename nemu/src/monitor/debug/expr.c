@@ -88,31 +88,33 @@ static bool make_token(char *e) {
 
         switch (rules[i].token_type) {
             case TK_NOTYPE: {
-                printf("Case TK_NOTYPE\n");
+                printf(" \n");
                 break;
             }
             case '+':{
-                printf("Case +\n");
+                printf("+\n");
                 break;
             }
             case TK_EQ: {
-                printf("Case TK_EQUAL\n");
+                printf("==\n");
                 break;
             }
             case '*': {
-                printf("Case *\n");
+                printf("*\n");
                 break;
             }
             case Addr_1: {
                 printf("Case Addr_1\n");
+                printf("%s\n",substr_start);
                 break;
             }
             case Number:{
                 printf("Case Number\n");
+                printf("%s\n",substr_start);
                 break;
             }
             case '-': {
-                printf("Case -\n");
+                printf("-\n");
                 break;
             }
             case '(': {
