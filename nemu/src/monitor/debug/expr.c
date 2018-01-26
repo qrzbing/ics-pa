@@ -119,10 +119,10 @@ static bool make_token(char *e) {
                 printf("(\n");
                 break;
             }
-                case ')': {
-                    printf(")\n");
-                    break;
-                }
+            case ')': {
+                printf(")\n");
+                break;
+            }
             case '/': {
                 printf("/\n");
                 break;
