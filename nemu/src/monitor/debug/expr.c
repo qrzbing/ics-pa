@@ -6,10 +6,10 @@
 #include <sys/types.h>
 #include <regex.h>
 enum {
-  TK_NOTYPE = 256, TK_EQ, Addr_1
+  TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-
+    Addr_1, Number,
 };
 
 static struct rule {
@@ -27,7 +27,7 @@ static struct rule {
     /* Add by QRZ */
     {"\\*", '*'},         // multiply
     {"^0x[0-9]{0,}$", Addr_1},  // address one
-
+    {"^[0-9]{1,}", Number}// Decimal number 
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -101,6 +101,10 @@ static bool make_token(char *e) {
             }
             case Addr_1: {
                 printf("Case Addr_1\n");
+                break;
+            }
+            case Number:{
+                printf("Case Number\n");
                 break;
             }
           default: TODO();
