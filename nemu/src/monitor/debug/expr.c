@@ -27,7 +27,11 @@ static struct rule {
     /* Add by QRZ */
     {"\\*", '*'},         // multiply
     {"^0x[0-9]{0,}$", Addr_1},  // address one
-    {"^[0-9]{1,}", Number}// Decimal number 
+    {"^[0-9]{1,}", Number},// Decimal number 
+    {"\\-", '-'},        // Subtraction
+    {"\\(",'('},        // Left Parenthesis
+    {"\\)",')'},        // Right Parenthesis 
+    {"\\/",'/'},         // Devision
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -105,6 +109,22 @@ static bool make_token(char *e) {
             }
             case Number:{
                 printf("Case Number\n");
+                break;
+            }
+            case '-': {
+                printf("Case -\n");
+                break;
+            }
+            case '(': {
+                printf("(\n");
+                break;
+            }
+                case ')': {
+                    printf(")\n");
+                    break;
+                }
+            case '/': {
+                printf("/\n");
                 break;
             }
           default: TODO();
