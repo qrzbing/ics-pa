@@ -25,13 +25,13 @@ static struct rule {
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
     /* Add by QRZ */
-    {"\\*$", '*'},         // multiply
+    {"\\*", '*'},         // multiply
     {"^0x[0-9]{0,}$", Addr_1},  // address one
     {"^[0-9]{1,}$", Number},// Decimal number 
-    {"\\-$", '-'},        // Subtraction
-    {"\\($",'('},         // Left Parenthesis
-    {"\\)$",')'},         // Right Parenthesis 
-    {"\\/$",'/'},         // Devision
+    {"\\-", '-'},        // Subtraction
+    {"\\(",'('},         // Left Parenthesis
+    {"\\)",')'},         // Right Parenthesis 
+    {"\\/",'/'},         // Devision
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
