@@ -26,7 +26,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
     /* Add by QRZ */
     {"\\*", '*'},         // multiply
-    {"^0x[0-9]{0,}$", Addr_1},  // address one
+    //{"^0x[0-9]{0,}$", Addr_1},  // address one
     {"^[0-9]+$", Number},// Decimal number 
     {"\\-", '-'},        // Subtraction
     {"\\(",'('},         // Left Parenthesis
