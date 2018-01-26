@@ -145,6 +145,7 @@ static int cmd_info(char *args){
 
 
 static int cmd_x(char *args){
+    //printf("%d %d\n",TK_NOTYPE,TK_EQ);
     char *arg1=strtok(NULL," ");
     char line_cmd[80]="";
     while(true){
