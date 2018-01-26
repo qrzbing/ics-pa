@@ -27,6 +27,7 @@ static struct rule {
     /* Add by QRZ */
     {"\\*", '*'},         // multiply
     {"^0x[0-9]{0,}$", Addr_1},  // address one
+
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
