@@ -95,6 +95,14 @@ static bool make_token(char *e) {
                 printf("Case TK_EQUAL\n");
                 break;
             }
+            case '*': {
+                printf("Case *\n");
+                break;
+            }
+            case Addr_1: {
+                printf("Case Addr_1\n");
+                break;
+            }
           default: TODO();
         }
 
