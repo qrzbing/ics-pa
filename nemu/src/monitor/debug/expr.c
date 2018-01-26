@@ -29,8 +29,8 @@ static struct rule {
     {"^0x[0-9]{0,}$", Addr_1},  // address one
     {"^[0-9]{1,}", Number},// Decimal number 
     {"\\-", '-'},        // Subtraction
-    {"\\(",'('},        // Left Parenthesis
-    {"\\)",')'},        // Right Parenthesis 
+    {"\\(",'('},         // Left Parenthesis
+    {"\\)",')'},         // Right Parenthesis 
     {"\\/",'/'},         // Devision
 };
 
