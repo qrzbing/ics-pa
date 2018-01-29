@@ -7,6 +7,7 @@
 #include <regex.h>
 enum {
   TK_NOTYPE = 256, TK_EQ,
+    TK_PLUS,
 
   /* TODO: Add more token types */
     Addr_1, Number, Number_Single,
@@ -22,7 +23,7 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
+  {"\\+", TK_PLUS},         // plus
   {"==", TK_EQ},        // equal
     /* Add by QRZ */
     {"\\*", '*'},         // multiply
@@ -32,7 +33,7 @@ static struct rule {
     {"\\(",'('},         // Left Parenthesis
     {"\\)",')'},         // Right Parenthesis 
     {"\\/",'/'},         // Devision
-    {"[0-9]",Number_Single},    // Single Number 
+    {"[0-9]+",Number_Single},    // Single Number 
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
