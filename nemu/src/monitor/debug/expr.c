@@ -7,7 +7,8 @@
 #include <regex.h>
 enum {
   TK_NOTYPE = 256, TK_EQ,
-    TK_PLUS,
+    TK_PLUS, TK_MUL,
+    TK_DIV,
 
   /* TODO: Add more token types */
     Addr_1, Number, Number_Single,
@@ -26,13 +27,13 @@ static struct rule {
   {"\\+", TK_PLUS},         // plus
   {"==", TK_EQ},        // equal
     /* Add by QRZ */
-    {"\\*", '*'},         // multiply
+    {"\\*", TK_MUL},         // multiply
     //{"^0x[0-9]{0,}$", Addr_1},  // address one
     {"^[0-9]{1,}$", Number},// Decimal number 
     {"\\-", '-'},        // Subtraction
     {"\\(",'('},         // Left Parenthesis
     {"\\)",')'},         // Right Parenthesis 
-    {"\\/",'/'},         // Devision
+    {"/",TK_DIV},         // Devision
     {"[0-9]+",Number_Single},    // Single Number 
 };
 
