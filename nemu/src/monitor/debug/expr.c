@@ -9,7 +9,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-    Addr_1, Number,
+    Addr_1, Number, Number_Single,
 };
 
 static struct rule {
@@ -32,6 +32,7 @@ static struct rule {
     {"\\(",'('},         // Left Parenthesis
     {"\\)",')'},         // Right Parenthesis 
     {"\\/",'/'},         // Devision
+    {"[0-9]",Number_Single},    // Single Number 
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -127,6 +128,10 @@ static bool make_token(char *e) {
             }
             case '/': {
                 printf("/\n");
+                break;
+            }
+            case Number_Single: {
+                printf("%s\n",substr_start);
                 break;
             }
           default: TODO();
