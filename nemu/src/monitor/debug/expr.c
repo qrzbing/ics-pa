@@ -7,11 +7,12 @@
 #include <regex.h>
 enum {
   TK_NOTYPE = 256, TK_EQ,
-    TK_PLUS, TK_MUL,
-    TK_DIV,
+    TK_PLUS, TK_SUB, TK_MUL, TK_DIV,    // Operayions
+    TK_DEC, TK_OCT, TK_BIN, TK_HEX,     // Number
+    TK_LPARE, TK_RPARE,
 
   /* TODO: Add more token types */
-    Addr_1, Number, Number_Single,
+    Addr_1, Number_Single,
 };
 
 static struct rule {
@@ -23,18 +24,20 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {" +", TK_NOTYPE},    // spaces
-  {"\\+", TK_PLUS},         // plus
-  {"==", TK_EQ},        // equal
-    /* Add by QRZ */
-    {"\\*", TK_MUL},         // multiply
-    //{"^0x[0-9]{0,}$", Addr_1},  // address one
-    {"^[0-9]{1,}$", Number},// Decimal number 
-    {"\\-", '-'},        // Subtraction
-    {"\\(",'('},         // Left Parenthesis
-    {"\\)",')'},         // Right Parenthesis 
-    {"/",TK_DIV},         // Devision
-    {"[0-9]+",Number_Single},    // Single Number 
+    {" +",    TK_NOTYPE},                // spaces
+    {"\\+",   TK_PLUS},                 // plus
+    {"==",    TK_EQ},                    // equal
+
+             /* Add by QRZ */
+
+    {"\\*", TK_MUL},                // multiply
+    //{"^0x[0-9]{0,}$", Addr_1},    // address one
+    //{"^[0-9]{1,}$", Number},        // Decimal number 
+    {"\\-", TK_SUB},                   // Subtraction
+    {"\\(", TK_LPARE},              // Left Parenthesis
+    {"\\)", TK_RPARE},              // Right Parenthesis 
+    {"/",   TK_DIV},                   // Devision
+    {"[0-9]+",Number_Single},       // Single Number 
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -91,10 +94,10 @@ static bool make_token(char *e) {
 
         switch (rules[i].token_type) {
             case TK_NOTYPE: {
-                printf(" \n");
+                printf("pause\n");
                 break;
             }
-            case '+':{
+            case TK_PLUS :{
                 printf("+\n");
                 break;
             }
@@ -102,11 +105,11 @@ static bool make_token(char *e) {
                 printf("==\n");
                 break;
             }
-            case '*': {
+            case TK_MUL: {
                 printf("*\n");
                 break;
             }
-            case Addr_1: {
+            /*case Addr_1: {
                 printf("Case Addr_1\n");
                 printf("%s\n",substr_start);
                 break;
@@ -115,20 +118,20 @@ static bool make_token(char *e) {
                 printf("Case Number\n");
                 printf("%s\n",substr_start);
                 break;
-            }
-            case '-': {
+        }*/
+            case TK_SUB: {
                 printf("-\n");
                 break;
             }
-            case '(': {
+            case TK_LPARE: {
                 printf("(\n");
                 break;
             }
-            case ')': {
+            case TK_RPARE: {
                 printf(")\n");
                 break;
             }
-            case '/': {
+            case TK_DIV: {
                 printf("/\n");
                 break;
             }
