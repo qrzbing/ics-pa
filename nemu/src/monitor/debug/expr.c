@@ -102,6 +102,7 @@ static bool make_token(char *e) {
                 strncpy(tokens[i].str,substr_start,substr_len);
                 tokens[i].str[substr_len]='\0';
                 ++nr_token;
+                break;
             }
           default: TODO();
         }
