@@ -136,7 +136,11 @@ static bool make_token(char *e) {
                 break;
             }
             case Number_Single: {
-                printf("%s\n",substr_start);
+                int temp_count=0;
+                for(;temp_count<substr_len;++temp_count){
+                    printf("%c",substr_start[temp_count]);
+                }
+                printf("\n");
                 break;
             }
           default: TODO();
