@@ -24,20 +24,19 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-    {" +",    TK_NOTYPE},                // spaces
-    {"\\+",   TK_PLUS},                 // plus
-    {"==",    TK_EQ},                    // equal
+    {" +",      TK_NOTYPE},                 // spaces
+    {"\\+",     TK_PLUS},                   // plus
+    {"==",      TK_EQ},                     // equal
 
              /* Add by QRZ */
 
-    {"\\*", TK_MUL},                // multiply
-    //{"^0x[0-9]{0,}$", Addr_1},    // address one
-    //{"^[0-9]{1,}$", Number},        // Decimal number 
-    {"\\-", TK_SUB},                   // Subtraction
-    {"\\(", TK_LPARE},              // Left Parenthesis
-    {"\\)", TK_RPARE},              // Right Parenthesis 
-    {"/",   TK_DIV},                   // Devision
-    {"[0-9]+",Number_Single},       // Single Number 
+    {"\\*",     TK_MUL},                    // multiply
+    //{"^0x[0-9]{0,}$", Addr_1},            // address one
+    {"\\-",     TK_SUB},                    // Subtraction
+    {"\\(",     TK_LPARE},                  // Left Parenthesis
+    {"\\)",     TK_RPARE},                  // Right Parenthesis 
+    {"/",       TK_DIV},                    // Devision
+    {"[0-9]+",  TK_DEC},                    // Single Number 
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -97,55 +96,15 @@ static bool make_token(char *e) {
                 printf("pause\n");
                 break;
             }
-            case TK_PLUS :{
-                printf("+\n");
-                break;
-            }
-            case TK_EQ: {
-                printf("==\n");
-                break;
-            }
-            case TK_MUL: {
-                printf("*\n");
-                break;
-            }
-            /*case Addr_1: {
-                printf("Case Addr_1\n");
-                printf("%s\n",substr_start);
-                break;
-            }
-            case Number:{
-                printf("Case Number\n");
-                printf("%s\n",substr_start);
-                break;
-        }*/
-            case TK_SUB: {
-                printf("-\n");
-                break;
-            }
-            case TK_LPARE: {
-                printf("(\n");
-                break;
-            }
-            case TK_RPARE: {
-                printf(")\n");
-                break;
-            }
-            case TK_DIV: {
-                printf("/\n");
-                break;
-            }
-            case Number_Single: {
-                int temp_count=0;
-                for(;temp_count<substr_len;++temp_count){
-                    printf("%c",substr_start[temp_count]);
-                }
-                printf("\n");
-                break;
+            case TK_PLUS: case TK_EQ: case TK_MUL: case TK_SUB: case TK_DIV:
+            case TK_LPARE:  case TK_RPARE: case TK_DEC: {
+                tokens[i].type=rules[i].token_type;
+                strncpy(tokens[i].str,substr_start,substr_len);
+                tokens[i].str[substr_len]='\0';
+                ++nr_token;
             }
           default: TODO();
         }
-
         break;
       }
     }
@@ -166,6 +125,11 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
+    int temp_count=0;
+    for(;temp_count<nr_token;++temp_count){
+        printf("%s",tokens[temp_count].str);
+    }
+    printf("\n");
   TODO();
 
   return 0;
