@@ -98,9 +98,9 @@ static bool make_token(char *e) {
             }
             case TK_PLUS: case TK_EQ: case TK_MUL: case TK_SUB: case TK_DIV:
             case TK_LPARE:  case TK_RPARE: case TK_DEC: {
-                tokens[i].type=rules[i].token_type;
-                strncpy(tokens[i].str,substr_start,substr_len);
-                tokens[i].str[substr_len]='\0';
+                tokens[nr_token].type=rules[i].token_type;
+                strncpy(tokens[nr_token].str,substr_start,substr_len);
+                tokens[nr_token].str[substr_len]='\0';
                 ++nr_token;
                 break;
             }
