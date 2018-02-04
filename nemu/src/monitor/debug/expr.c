@@ -257,9 +257,12 @@ uint32_t eval(uint32_t p,uint32_t q){
         }
         if(op == 0){
             if(tokens[p].type == TK_NEGA){
-                printf("%d\n", eval(p+1,q));
+                printf("%d %d\n",p, eval(p+1,q));
                 uint32_t ret = 0 - eval(p + 1, q);
                 return ret;
+            }
+            else{
+                panic("What 's Wrong???");
             }
         }
         uint32_t val1 = eval(p, op - 1);
