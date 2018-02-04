@@ -9,7 +9,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
     TK_PLUS, TK_SUB, TK_MUL, TK_DIV,    // Operayions
     TK_DEC, TK_OCT, TK_BIN, TK_HEX,     // Number
-    TK_LPARE, TK_RPARE,
+    TK_LPARE, TK_RPARE, TK_NEGA,
 
   /* TODO: Add more token types */
     Addr_1, Number_Single,
@@ -96,11 +96,23 @@ static bool make_token(char *e) {
                 printf("pause\n");
                 break;
             }
-            case TK_PLUS: case TK_EQ: case TK_MUL: case TK_SUB: case TK_DIV:
+            case TK_SUB: {
+                if(nr_token == 0 || tokens[nr_token - 1].type != TK_DEC) {
+                    tokens[nr_token].type = TK_NEGA;
+                }
+                else {
+                    tokens[nr_token].type = TK_SUB;
+                }
+                strncpy(tokens[nr_token].str, substr_start, substr_len);
+                tokens[nr_token].str[substr_len] = '\0';
+                ++nr_token;
+                break;
+            }
+            case TK_PLUS: case TK_EQ: case TK_MUL: case TK_DIV:
             case TK_LPARE:  case TK_RPARE: case TK_DEC: {
-                tokens[nr_token].type=rules[i].token_type;
-                strncpy(tokens[nr_token].str,substr_start,substr_len);
-                tokens[nr_token].str[substr_len]='\0';
+                tokens[nr_token].type = rules[i].token_type;
+                strncpy(tokens[nr_token].str, substr_start, substr_len);
+                tokens[nr_token].str[substr_len] = '\0';
                 ++nr_token;
                 break;
             }
@@ -179,6 +191,9 @@ uint32_t eval(uint32_t p,uint32_t q){
     }
     else if (p == q){
         if(tokens[p].type == TK_DEC){
+            if(p != 0 && tokens[p - 1].type == TK_NEGA){
+                return 0 - atoi(tokens[p].str);
+            }
             return atoi(tokens[p].str);
         }
         else{
