@@ -188,8 +188,7 @@ uint32_t eval(uint32_t p,uint32_t q){
     MyStack S;
     S.top=0;
     if(p > q){
-        printf("Wrong expression.\n");
-        assert(0);
+        panic("Wrong expression.");
     }
     else if (p == q){
         if(tokens[p].type == TK_DEC){
@@ -209,7 +208,7 @@ uint32_t eval(uint32_t p,uint32_t q){
     else {
         int op_type = 0x7fffffff;
         int op = 0;
-        int temp_count=p;
+        int temp_count = p;
         for(; temp_count <= q; ++temp_count){
             switch(tokens[temp_count].type){
                 case TK_PLUS: {
@@ -256,7 +255,13 @@ uint32_t eval(uint32_t p,uint32_t q){
                 default: break;
             }
         }
-
+        if(op == 0){
+            if(q - p == 1){
+                if(tokens[p].type == TK_NEGA && tokens[q].type == TK_DEC){
+                    return 0 - atoi(tokens[q].str);
+                }
+            }
+        }
         uint32_t val1 = eval(p, op - 1);
         uint32_t val2 = eval(op + 1, q);
 
