@@ -240,10 +240,10 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-    /*int temp_count=0;
+    int temp_count=0;
     for(;temp_count<nr_token;++temp_count){
         printf("%s\n", tokens[temp_count].str);
-    }*/
+    }
     uint32_t ans1=eval(0,nr_token-1);
     printf("%d\n", ans1);
   TODO();
