@@ -192,9 +192,6 @@ uint32_t eval(uint32_t p,uint32_t q){
     }
     else if (p == q){
         if(tokens[p].type == TK_DEC){
-            if(p != 0 && tokens[p - 1].type == TK_NEGA){
-                return 0 - atoi(tokens[p].str);
-            }
             return atoi(tokens[p].str);
         }
         else{
@@ -257,7 +254,6 @@ uint32_t eval(uint32_t p,uint32_t q){
         }
         if(op == 0){
             if(tokens[p].type == TK_NEGA){
-                printf("%d %d %d\n",p,q, eval(p+1,q));
                 uint32_t ret = 0 - eval(p + 1, q);
                 return ret;
             }
