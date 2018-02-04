@@ -230,7 +230,7 @@ uint32_t eval(uint32_t p,uint32_t q){
                     push(S, '1');
                 }
                 case TK_RPARE: {
-                    if(isEmpty(S)){
+                    if(isEmpty(S) == true){
                         panic("Wrong Expression");
                     }
                     pop(S);
