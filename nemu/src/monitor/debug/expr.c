@@ -119,6 +119,120 @@ static bool make_token(char *e) {
   return true;
 }
 
+#define stacksize 31
+
+typedef struct check_parentheses_stack{
+    char stack[stacksize];
+    int top;
+}MyStack;
+
+#define isEmpty(S) (S.top == 0)
+
+#define push(S, ch) if(S.top == stacksize){ \
+                        panic("Buffer Overflow"); \
+                    } \
+                    S.stack[S.top]=ch; \
+                    ++S.top
+
+#define pop(S)  if(isEmpty(S) == true){ \
+                    panic("Stack Empty"); \
+                } \
+                --S.top
+
+static bool check_parentheses(uint32_t p,uint32_t q){
+    MyStack S;
+    S.top = 0;
+    if(tokens[p].type != TK_LPARE) return false;
+    int temp_count=p;
+    for(; temp_count <= q; ++temp_count){
+        if(tokens[temp_count].type == TK_LPARE){
+            push(S,'(');
+        }
+        else if(tokens[temp_count].type == TK_RPARE){
+            if(isEmpty(S) == true){
+                panic("Wrong Expression");
+                return false;       // Wrong Expression
+            }
+            pop(S);
+            if(isEmpty(S) == true){
+                if(temp_count == q) return true;
+                return false;       // True Expression
+            }
+        }
+    }
+    return false;
+}
+#include<stdlib.h>
+uint32_t eval(uint32_t p,uint32_t q){
+    if(p > q){
+        printf("Wrong expression.\n");
+        assert(0);
+    }
+    else if (p == q){
+        if(tokens[p].type == TK_DEC){
+            return atoi(tokens[p].str);
+        }
+        else{
+            printf("Wrong Number.\n");
+            assert(0);
+        }
+    }
+    else if (check_parentheses(p, q) == true){
+        return eval(p + 1, q - 1);
+    }
+    else {
+        int op_type = 0x7fffffff;
+        int op = 0;
+        int temp_count=p;
+        for(; temp_count <= q; ++temp_count){
+            switch(tokens[temp_count].type){
+                case TK_PLUS: {
+                    op = temp_count;
+                    op_type = TK_PLUS;
+                    break;
+                }
+                case TK_SUB: {
+                    op = temp_count;
+                    op_type = TK_SUB;
+                    break;
+                }
+                case TK_MUL: {
+                    if(op_type < TK_MUL){
+                        break;
+                    }
+                    op = temp_count;
+                    op_type = TK_MUL;
+                    break;
+                }
+                case TK_DIV: {
+                    if(op_type < TK_MUL){
+                        break;
+                    }
+                    op = temp_count;
+                    op_type = TK_DIV;
+                    break;
+                }
+                //default: 
+            }
+        }
+
+        uint32_t val1 = eval(p, op - 1);
+        uint32_t val2 = eval(op + 1, q);
+
+        switch (op_type) {
+            case TK_PLUS: return val1 + val2;
+            case TK_SUB:  return val1 - val2;
+            case TK_MUL:  return val1 * val2;
+            case TK_DIV:  return val1 / val2;
+            default: {
+                printf("Wrong op_type\n");
+                assert(0);
+            }
+        }
+    }
+    return -1;
+}
+
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -128,9 +242,10 @@ uint32_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
     int temp_count=0;
     for(;temp_count<nr_token;++temp_count){
-        printf("%s",tokens[temp_count].str);
+        printf("%s\n", tokens[temp_count].str);
     }
-    printf("\n");
+    uint32_t ans1=eval(0,nr_token-1);
+    printf("%d\n", ans1);
   TODO();
 
   return 0;
