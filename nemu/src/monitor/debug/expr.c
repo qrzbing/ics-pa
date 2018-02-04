@@ -9,7 +9,8 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
     TK_PLUS, TK_SUB, TK_MUL, TK_DIV,    // Operayions
     TK_DEC, TK_OCT, TK_BIN, TK_HEX,     // Number
-    TK_LPARE, TK_RPARE, TK_NEGA,
+    TK_LPARE, TK_RPARE, 
+    TK_NEGA,
 
   /* TODO: Add more token types */
     Addr_1, Number_Single,
@@ -251,6 +252,7 @@ uint32_t eval(uint32_t p,uint32_t q){
                     pop(S);
                     break;
                 }
+                default: break;
             }
         }
 
