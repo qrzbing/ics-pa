@@ -126,7 +126,7 @@ typedef struct check_parentheses_stack{
     int top;
 }MyStack;
 
-#define isEmpty(S) (S.top == 0)
+#define isEmpty(S) (S.top == 0?true:false)
 
 #define push(S, ch) if(S.top == stacksize){ \
                         panic("Buffer Overflow"); \
