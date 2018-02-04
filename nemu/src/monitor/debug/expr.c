@@ -159,21 +159,20 @@ typedef struct check_parentheses_stack{
             printf("\n")
 
 static bool check_parentheses(uint32_t p,uint32_t q){
-    MyStack S;
-    S.top = 0;
+    int S = 0;
     if(tokens[p].type != TK_LPARE) return false;
     int temp_count=p;
     for(; temp_count <= q; ++temp_count){
         if(tokens[temp_count].type == TK_LPARE){
-            push(S,'(');
+            ++S;
         }
         else if(tokens[temp_count].type == TK_RPARE){
-            if(isEmpty(S) == true){
+            if(S == 0){
                 panic("Wrong Expression");
                 return false;       // Wrong Expression
             }
-            pop(S);
-            if(isEmpty(S) == true){
+            --S;
+            if(S == 0){
                 if(temp_count == q) return true;
                 return false;       // True Expression
             }
