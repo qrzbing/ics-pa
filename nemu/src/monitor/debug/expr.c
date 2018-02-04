@@ -184,7 +184,7 @@ static bool check_parentheses(uint32_t p,uint32_t q){
 #include<stdlib.h>
 
 uint32_t eval(uint32_t p,uint32_t q){
-    test_output(p,q);
+    //test_output(p,q);
     MyStack S;
     S.top=0;
     if(p > q){
