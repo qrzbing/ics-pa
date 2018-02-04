@@ -265,6 +265,7 @@ uint32_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
     uint32_t ans1=eval(0,nr_token-1);
     printf("%d\n", ans1);
+    *success = true;
   //TODO();
 
   return 0;
