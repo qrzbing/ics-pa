@@ -139,6 +139,12 @@ typedef struct check_parentheses_stack{
                 } \
                 --S.top
 
+#define test_output(p, q) \
+            int temp_count = p; \
+            for(; temp_count <= q; ++temp_count) \
+                printf("%s", tokens[temp_count].str); \
+            printf("\n")
+
 static bool check_parentheses(uint32_t p,uint32_t q){
     MyStack S;
     S.top = 0;
@@ -163,6 +169,7 @@ static bool check_parentheses(uint32_t p,uint32_t q){
     return false;
 }
 #include<stdlib.h>
+
 uint32_t eval(uint32_t p,uint32_t q){
     if(p > q){
         printf("Wrong expression.\n");
@@ -240,10 +247,12 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-    int temp_count=0;
+    /*int temp_count=0;
     for(;temp_count<nr_token;++temp_count){
-        printf("%s\n", tokens[temp_count].str);
+        printf("%s", tokens[temp_count].str);
     }
+    printf("\n");*/
+    test_output(0,nr_token-1);
     uint32_t ans1=eval(0,nr_token-1);
     printf("%d\n", ans1);
   TODO();
