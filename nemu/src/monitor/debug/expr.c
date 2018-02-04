@@ -256,10 +256,8 @@ uint32_t eval(uint32_t p,uint32_t q){
             }
         }
         if(op == 0){
-            if(q - p == 1){
-                if(tokens[p].type == TK_NEGA && tokens[q].type == TK_DEC){
-                    return 0 - atoi(tokens[q].str);
-                }
+            if(tokens[p].type == TK_NEGA){
+                return 0 - eval(p + 1, q);
             }
         }
         uint32_t val1 = eval(p, op - 1);
