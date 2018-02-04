@@ -228,12 +228,14 @@ uint32_t eval(uint32_t p,uint32_t q){
                 }
                 case TK_LPARE: {
                     push(S, '1');
+                    break;
                 }
                 case TK_RPARE: {
                     if(isEmpty(S) == true){
                         panic("Wrong Expression");
                     }
                     pop(S);
+                    break;
                 }
             }
         }
