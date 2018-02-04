@@ -253,9 +253,6 @@ uint32_t eval(uint32_t p,uint32_t q){
                     pop(S);
                     break;
                 }
-                case TK_DEC: {
-                    return 0 - atoi(tokens[temp_count].str);
-                }
                 default: break;
             }
         }
