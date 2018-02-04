@@ -184,8 +184,7 @@ static bool check_parentheses(uint32_t p,uint32_t q){
 
 uint32_t eval(uint32_t p,uint32_t q){
     //test_output(p,q);
-    MyStack S;
-    S.top=0;
+    int S = 0;
     if(p > q){
         panic("Wrong expression.");
     }
@@ -208,19 +207,19 @@ uint32_t eval(uint32_t p,uint32_t q){
         for(; temp_count <= q; ++temp_count){
             switch(tokens[temp_count].type){
                 case TK_PLUS: {
-                    if(isEmpty(S) == false) break;
+                    if(S != 0) break;
                     op = temp_count;
                     op_type = TK_PLUS;
                     break;
                 }
                 case TK_SUB: {
-                    if(isEmpty(S) == false) break;
+                    if(S != 0) break;
                     op = temp_count;
                     op_type = TK_SUB;
                     break;
                 }
                 case TK_MUL: {
-                    if(isEmpty(S) == false) break;
+                    if(S != 0) break;
                     if(op_type < TK_MUL){
                         break;
                     }
@@ -229,7 +228,7 @@ uint32_t eval(uint32_t p,uint32_t q){
                     break;
                 }
                 case TK_DIV: {
-                    if(isEmpty(S) == false) break;
+                    if(S != 0) break;
                     if(op_type < TK_MUL){
                         break;
                     }
@@ -238,14 +237,14 @@ uint32_t eval(uint32_t p,uint32_t q){
                     break;
                 }
                 case TK_LPARE: {
-                    push(S, '1');
+                    ++S;
                     break;
                 }
                 case TK_RPARE: {
-                    if(isEmpty(S) == true){
+                    if(S == 0){
                         panic("Wrong Expression");
                     }
-                    pop(S);
+                    --S;
                     break;
                 }
                 default: break;
