@@ -6,14 +6,13 @@
 #include <sys/types.h>
 #include <regex.h>
 enum {
-  TK_NOTYPE = 256, TK_EQ,
+    TK_NOTYPE = 256, TK_EQ,
     TK_PLUS, TK_SUB, TK_MUL, TK_DIV,    // Operayions
-    TK_DEC, TK_OCT, TK_BIN, TK_HEX,     // Number
-    TK_LPARE, TK_RPARE, 
-    TK_NEGA,
+    TK_DEC, TK_HEX,     // Number
+    TK_LPARE, TK_RPARE, // Parenthesis
+    TK_NEGA,            // Symbol
+    TK_REG,             // Register
 
-  /* TODO: Add more token types */
-    Addr_1, Number_Single,
 };
 
 static struct rule {
@@ -21,23 +20,17 @@ static struct rule {
   int token_type;
 } rules[] = {
 
-  /* TODO: Add more rules.
-   * Pay attention to the precedence level of different rules.
-   */
-
-    {" +",      TK_NOTYPE},                 // spaces
-    {"\\+",     TK_PLUS},                   // plus
-    {"==",      TK_EQ},                     // equal
-
-             /* Add by QRZ */
-
-    {"\\*",     TK_MUL},                    // multiply
-    //{"^0x[0-9]{0,}$", Addr_1},            // address one
-    {"\\-",     TK_SUB},                    // Subtraction
-    {"\\(",     TK_LPARE},                  // Left Parenthesis
-    {"\\)",     TK_RPARE},                  // Right Parenthesis 
-    {"/",       TK_DIV},                    // Devision
-    {"[0-9]+",  TK_DEC},                    // Single Number 
+    {" +",           TK_NOTYPE},                 // spaces
+    {"\\+",          TK_PLUS},                   // plus
+    {"==",           TK_EQ},                     // equal
+    {"\\*",          TK_MUL},                    // multiply
+    {"\\-",          TK_SUB},                    // Subtraction
+    {"\\(",          TK_LPARE},                  // Left Parenthesis
+    {"\\)",          TK_RPARE},                  // Right Parenthesis 
+    {"/",            TK_DIV},                    // Devision
+    {"\\$[A-Za-z]+", TK_REG},                    // Register 
+    {"0x[A-Fa-f0-9]+",  TK_HEX},            // Hex Number 
+    {"[0-9]+",  TK_DEC},                    // Dec Number 
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -82,11 +75,11 @@ static bool make_token(char *e) {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
-
+        /*
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
         position += substr_len;
-
+        */
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
@@ -134,7 +127,7 @@ static bool make_token(char *e) {
 
 #define stacksize 31
 
-typedef struct check_parentheses_stack{
+typedef struct qrz_stack{
     char stack[stacksize];
     int top;
 }MyStack;
@@ -206,34 +199,19 @@ uint32_t eval(uint32_t p,uint32_t q){
         int temp_count = p;
         for(; temp_count <= q; ++temp_count){
             switch(tokens[temp_count].type){
-                case TK_PLUS: {
+                case TK_PLUS: case TK_SUB: {
                     if(S != 0) break;
                     op = temp_count;
-                    op_type = TK_PLUS;
+                    op_type = tokens[temp_count].type;
                     break;
                 }
-                case TK_SUB: {
-                    if(S != 0) break;
-                    op = temp_count;
-                    op_type = TK_SUB;
-                    break;
-                }
-                case TK_MUL: {
+                case TK_MUL: case TK_DIV: {
                     if(S != 0) break;
                     if(op_type < TK_MUL){
                         break;
                     }
                     op = temp_count;
-                    op_type = TK_MUL;
-                    break;
-                }
-                case TK_DIV: {
-                    if(S != 0) break;
-                    if(op_type < TK_MUL){
-                        break;
-                    }
-                    op = temp_count;
-                    op_type = TK_DIV;
+                    op_type = tokens[temp_count].type;
                     break;
                 }
                 case TK_LPARE: {
@@ -283,6 +261,8 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
+    *success = true;
+    return eval(0,nr_token - 1);
     uint32_t ans1=eval(0,nr_token-1);
     printf("%d\n", ans1);
     *success = true;

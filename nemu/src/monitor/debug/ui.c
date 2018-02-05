@@ -155,8 +155,10 @@ static int cmd_x(char *args){
     }
     //printf("%s\n",line_cmd);
     bool success;
-    expr(line_cmd,&success);
-    if(success==true) printf("OK\n");
+    uint32_t ans = expr(line_cmd, &success);
+    if(success==true){
+        printf("result = %d\n", ans);
+    }
     else{
         printf("Error\n");
         return -1;
