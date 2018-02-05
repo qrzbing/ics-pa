@@ -75,11 +75,11 @@ static bool make_token(char *e) {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
-        /*
+        
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
         position += substr_len;
-        */
+        
         switch (rules[i].token_type) {
             case TK_NOTYPE: {
                 printf("pause\n");
@@ -171,7 +171,7 @@ static bool check_parentheses(uint32_t p,uint32_t q){
 #include<stdlib.h>
 
 uint32_t eval(uint32_t p,uint32_t q){
-    test_output(p,q);
+    //test_output(p,q);
     int S = 0;
     if(p > q){
         panic("Wrong expression.");
