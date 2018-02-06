@@ -174,10 +174,6 @@ static bool check_parentheses(uint32_t p,uint32_t q){
 
 #include<stdlib.h>
 
-extern char *REG_32_STR[];
-extern char *REG_16_STR[];
-extern char *REG_16_STR[];
-
 uint32_t eval(uint32_t p,uint32_t q){
     //test_output(p,q);
     int S = 0;
@@ -199,13 +195,13 @@ uint32_t eval(uint32_t p,uint32_t q){
             }
             temp_str[temp_count - 1] = '\0';
             for(temp_count = 0; temp_count < 8; ++temp_count){
-                if(strcmp(temp_str, REG_32_STR[temp_count]) == 0){
+                if(strcmp(temp_str, regsl[temp_count]) == 0){
                     return reg_l(temp_count);
                 }
-                else if(strcmp(temp_str, REG_16_STR[temp_count]) == 0){
+                else if(strcmp(temp_str, regsw[temp_count]) == 0){
                     return reg_w(temp_count);
                 }
-                else if(strcmp(temp_str, REG_8_STR[temp_count]) == 0){
+                else if(strcmp(temp_str, regsb[temp_count]) == 0){
                     return reg_b(temp_count);
                 }
             }
