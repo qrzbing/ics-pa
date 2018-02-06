@@ -37,6 +37,21 @@ typedef struct {
 
 extern CPU_state cpu;
 
+char *REG_32[] = {
+    "eax", "ecx", "edx", "ebx",
+    "esp", "ebp", "esi", "edi",
+};
+
+char *REG_16[] = {
+    "ax", "dx", "cx", "bx",
+    "bp", "si", "di", "sp",
+};
+
+char *REG_8[] = {
+    "al", "dl", "cl", "bl",
+    "ah", "dh", "ch", "bh",
+};
+
 static inline int check_reg_index(int index) {
   assert(index >= 0 && index < 8);
   return index;

@@ -79,8 +79,7 @@ static bool make_token(char *e) {
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
         */
-        position += substr_len;
-        
+        position += substr_len; 
         switch (rules[i].token_type) {
             case TK_NOTYPE: {
                 printf("pause\n");
@@ -99,13 +98,16 @@ static bool make_token(char *e) {
                 break;
             }
             case TK_PLUS: case TK_EQ: case TK_MUL: case TK_DIV:
-            case TK_LPARE:  case TK_RPARE: case TK_DEC: {
+            case TK_LPARE: case TK_RPARE: 
+            case TK_DEC: case TK_HEX:
+            case TK_REG: {
                 tokens[nr_token].type = rules[i].token_type;
                 strncpy(tokens[nr_token].str, substr_start, substr_len);
                 tokens[nr_token].str[substr_len] = '\0';
                 ++nr_token;
                 break;
             }
+            
           default: TODO();
         }
         break;
@@ -181,9 +183,33 @@ uint32_t eval(uint32_t p,uint32_t q){
         if(tokens[p].type == TK_DEC){
             return atoi(tokens[p].str);
         }
+        else if(tokens[p].type == TK_HEX){
+            return strtol(tokens[p].str, NULL, 16);
+        }
+        else if(tokens[p].type == TK_REG){
+            int temp_count = 0;
+            char temp_str[10];
+            for(temp_count = 1; temp_count < strlen(tokens[p].str); ++temp_count){
+                temp_str[temp_count - 1] = tokens[p].str[temp_count];
+            }
+            temp_str[temp_count - 1] = '\0';
+            for(temp_count = 0; temp_count < 8; ++temp_count){
+                if(strcmp(temp_str, REG_32[temp_count]) == 0){
+                    return reg_l(temp_count);
+                }
+                else if(strcmp(temp_str, REG_16[temp_count]) == 0){
+                    return reg_w(temp_count);
+                }
+                else if(strcmp(temp_str, REG_8[temp_count]) == 0){
+                    return reg_b(temp_count);
+                }
+            }
+            if(strcmp(temp_str, "eip") == 0){
+                return cpu.eip;
+            }
+            panic("Wrong Register.");        }
         else{
-            printf("Wrong Number.\n");
-            assert(0);
+            panic("Wrong Number.");
         }
     }
     else if (check_parentheses(p, q) == true){

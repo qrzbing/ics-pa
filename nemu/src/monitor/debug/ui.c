@@ -44,6 +44,8 @@ static int cmd_info(char *args);
 
 static int cmd_x(char *args);
 
+static int cmd_p(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -56,6 +58,7 @@ static struct {
   { "si", "Step command", cmd_si },
   { "info", "Print register", cmd_info },
   { "x", "Scan memory", cmd_x},
+  { "p", "Show infomation", cmd_p},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -107,10 +110,22 @@ static int cmd_info(char *args){
     char *arg = strtok(NULL," ");
 
     if(arg==NULL) {
-        printf("default\n");
+        printf("Invalid option.\n");
     }
     else{
         if(strcmp(arg,"r")==0){
+            int temp_count=0;
+            for(temp_count = 0; temp_count < 8; ++temp_count){
+                printf("%s:    0x%x\n", REG_32[temp_count], reg_l(temp_count));
+            }
+            printf("eip:    0x%x\n", cpu.eip);
+            for(temp_count = 0; temp_count < 8; ++temp_count){
+                printf("%s:     0x%x\n", REG_16[temp_count], reg_w(temp_count));
+            }
+            for(temp_count = 0; temp_count < 8; ++temp_count){
+                printf("%s:     0x%x\n", REG_8[temp_count], reg_b(temp_count));
+            }
+            /*
             printf("eax:    0x%x\n",cpu.eax);
             printf("ecx:    0x%x\n",cpu.ecx);
             printf("edx:    0x%x\n",cpu.edx);
@@ -135,6 +150,7 @@ static int cmd_info(char *args){
             printf("ch:     0x%x\n",reg_b(R_CH));
             printf("dh:     0x%x\n",reg_b(R_DH));
             printf("bh:     0x%x\n",reg_b(R_BH));
+            */
         }
         else{
             printf("default\n");
@@ -156,7 +172,7 @@ static int cmd_x(char *args){
     //printf("%s\n",line_cmd);
     bool success;
     uint32_t ans = expr(line_cmd, &success);
-    if(success==true){
+    if(success == true){
         printf("result = %d\n", ans);
     }
     else{
@@ -203,6 +219,28 @@ static int cmd_x(char *args){
         
     }
     return 0;
+}
+
+static int cmd_p(char *args){
+    char line_cmd[80] = "\0";
+    while(true){
+        char *arg = strtok(NULL, " ");
+        if(arg == NULL) break;
+        if(strlen(arg) + strlen(line_cmd) > 80){
+            panic("Buffer Overflow.");
+        }
+        strcat(line_cmd, arg);
+    }
+    bool success;
+    uint32_t ans = expr(line_cmd, &success);
+    if(success == true){
+        printf("result = %d\n", ans);
+        return 0;
+    }
+    else{
+        printf("Invalid Command.\n");
+        return -1;
+    }
 }
 
 void ui_mainloop(int is_batch_mode) {
