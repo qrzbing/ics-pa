@@ -126,32 +126,6 @@ static int cmd_info(char *args){
             for(temp_count = 0; temp_count < 8; ++temp_count){
                 printf("%s:     0x%x\n", regsb[temp_count], reg_b(temp_count));
             }
-            /*
-            printf("eax:    0x%x\n",cpu.eax);
-            printf("ecx:    0x%x\n",cpu.ecx);
-            printf("edx:    0x%x\n",cpu.edx);
-            printf("ebx:    0x%x\n",cpu.ebx);
-            printf("esp:    0x%x\n",cpu.esp);
-            printf("ebp:    0x%x\n",cpu.ebp);
-            printf("esi:    0x%x\n",cpu.esi);
-            printf("edi:    0x%x\n",cpu.edi);
-            printf("ax:     0x%x\n",reg_w(R_AX));
-            printf("cx:     0x%x\n",reg_w(R_CX));
-            printf("dx:     0x%x\n",reg_w(R_DX));
-            printf("bx:     0x%x\n",reg_w(R_BX));
-            printf("sp:     0x%x\n",reg_w(R_SP));
-            printf("bp:     0x%x\n",reg_w(R_BP));
-            printf("si:     0x%x\n",reg_w(R_SI));
-            printf("di:     0x%x\n",reg_w(R_DI));
-            printf("al:     0x%x\n",reg_b(R_AL));
-            printf("cl:     0x%x\n",reg_b(R_CL));
-            printf("dl:     0x%x\n",reg_b(R_DL));
-            printf("bl:     0x%x\n",reg_b(R_BL));
-            printf("ah:     0x%x\n",reg_b(R_AH));
-            printf("ch:     0x%x\n",reg_b(R_CH));
-            printf("dh:     0x%x\n",reg_b(R_DH));
-            printf("bh:     0x%x\n",reg_b(R_BH));
-            */
         }
         else{
             printf("default\n");
