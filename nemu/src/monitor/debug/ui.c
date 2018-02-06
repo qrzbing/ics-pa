@@ -182,7 +182,7 @@ static int cmd_x(char *args){
                 printf("0x%x: ", addr);
             }
             printf("0x%08x ", vaddr_read(addr, 8));
-            addr += 8;
+            addr += 4;
             if(temp_count % 2 == 1){
                 printf("\n");
             }
