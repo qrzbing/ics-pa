@@ -52,12 +52,12 @@ static struct {
   int (*handler) (char *);
 } cmd_table [] = {
     { "help", "help [cmmmand] , Display informations about all supported commands", cmd_help },
-    { "c", "c, Continue the execution of the program", cmd_c },
-    { "q", "Exit NEMU", cmd_q },
-    { "si", "Step command", cmd_si },
-    { "info", "Print register", cmd_info },
-    { "x", "Scan memory", cmd_x},
-    { "p", "Show infomation", cmd_p},
+    { "c", "c , Continue the execution of the program", cmd_c },
+    { "q", "q , Exit NEMU", cmd_q },
+    { "si", "si [N] , Step command", cmd_si },
+    { "info", "info SUBCMD , Print register", cmd_info },
+    { "x", "x N EXPR , Scan memory", cmd_x},
+    { "p", "p EXPR , Show infomation", cmd_p},
     //( "math",  ) 
 };
 
