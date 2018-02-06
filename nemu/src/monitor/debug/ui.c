@@ -235,7 +235,7 @@ static int cmd_p(char *args){
     bool success;
     uint32_t ans = expr(line_cmd, &success);
     if(success == true){
-        printf("result = 0x%x\n", ans);
+        printf("%s = 0x%x\n", line_cmd, ans);
         return 0;
     }
     else{
