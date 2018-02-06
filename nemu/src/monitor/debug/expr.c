@@ -108,7 +108,7 @@ static bool make_token(char *e) {
                 }
                 break;
             }
-            case TK_OR: case TK_AND:
+            case TK_OR: case TK_AND: case TK_NOT:
             case TK_EQ: case TK_NEQ:
             case TK_PLUS: case TK_DIV:
             case TK_LPARE: case TK_RPARE: 
