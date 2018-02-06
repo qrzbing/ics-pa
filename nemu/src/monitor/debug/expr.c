@@ -233,20 +233,26 @@ uint32_t eval(uint32_t p,uint32_t q){
         int op = 0;
         int temp_count = p;
         for(; temp_count <= q; ++temp_count){
+            bool flag = false;
             if(tokens[temp_count].type == TK_OR){
-                if(S != 0) continue;
+                if(S != 0) continue; 
+                flag = true;
             }
             else if(tokens[temp_count].type == TK_AND){
                 if(S != 0 || op_type < TK_AND) continue;
+                flag = true;
             }
             else if(tokens[temp_count].type == TK_EQ || tokens[temp_count].type == TK_NEQ){
                 if(S != 0 || op_type < TK_EQ) continue;
+                flag = true;
             }
             else if(tokens[temp_count].type == TK_PLUS || tokens[temp_count].type == TK_SUB){
                 if(S != 0 || op_type < TK_PLUS) continue;
+                flag = true;
             }
             else if(tokens[temp_count].type == TK_MUL || tokens[temp_count].type == TK_DIV){
                 if(S != 0 || op_type < TK_MUL) continue;
+                flag = true;
             }
             else if(tokens[temp_count].type == TK_LPARE){
                 ++S;
@@ -259,8 +265,10 @@ uint32_t eval(uint32_t p,uint32_t q){
                 --S;
                 continue;
             }
-            op = temp_count;
-            op_type = tokens[temp_count].type;
+            if(flag == true){    
+                op = temp_count;
+                op_type = tokens[temp_count].type;
+            }
             /*switch(tokens[temp_count].type){
                 case TK_OR: {
                     if(S != 0) break;
