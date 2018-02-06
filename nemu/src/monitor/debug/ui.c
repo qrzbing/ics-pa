@@ -46,19 +46,27 @@ static int cmd_x(char *args);
 
 static int cmd_p(char *args);
 
+static int cmd_w(char *args);
+
+static int cmd_d(char *args);
+
+static int cmd_math(char *args);
+
 static struct {
   char *name;
   char *description;
   int (*handler) (char *);
 } cmd_table [] = {
     { "help", "help [cmmmand] , Display informations about all supported commands", cmd_help },
-    { "c", "c , Continue the execution of the program", cmd_c },
-    { "q", "q , Exit NEMU", cmd_q },
-    { "si", "si [N] , Step command", cmd_si },
-    { "info", "info SUBCMD , Print register", cmd_info },
-    { "x", "x N EXPR , Scan memory", cmd_x},
-    { "p", "p EXPR , Show infomation", cmd_p},
-    //( "math",  ) 
+    { "c", "c, Continue the execution of the program", cmd_c },
+    { "q", "q, Exit NEMU", cmd_q },
+    { "si", "si [N], Step command", cmd_si },
+    { "info", "info SUBCMD, Print register", cmd_info },
+    { "x", "x N EXPR, Scan memory", cmd_x },
+    { "p", "p EXPR, Show infomation", cmd_p },
+    { "w", "w EXPR, Watch ", cmd_w },
+    { "d", "d N, Delete Watchpoint", cmd_d },
+    { "math", "math EXPR, Arithmetic evaluation", cmd_math },
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -190,6 +198,34 @@ static int cmd_p(char *args){
         printf("Invalid Command.\n");
         return -1;
     }
+}
+
+static int cmd_w(char *args){
+    return -1;
+}
+
+static int cmd_d(char *args){
+    return -1;
+}
+
+static int cmd_math(char *args){
+    char line_cmd[80]="\0";
+    while(true){
+        char *arg=strtok(NULL, " ");
+        if(arg == NULL) break;
+        if(strlen(arg) + strlen(line_cmd) > 80){
+            panic("Buffer Overflow");
+        }
+        strcat(line_cmd, arg);
+    }
+    bool success;
+    uint32_t ans = expr(line_cmd, &success);
+    if(success == true){
+        printf("result = %d", ans);
+        return 0;
+    }
+    else printf("Invalid Command.\n");
+    return -1;
 }
 
 void ui_mainloop(int is_batch_mode) {

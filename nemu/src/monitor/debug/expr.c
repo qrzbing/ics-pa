@@ -6,13 +6,14 @@
 #include <sys/types.h>
 #include <regex.h>
 enum {
-    TK_NOTYPE = 256, TK_EQ,
+    TK_NOTYPE = 256, 
+    TK_OR, TK_AND, TK_NOT, 
+    TK_EQ, TK_NEQ,
     TK_PLUS, TK_SUB, TK_MUL, TK_DIV,    // Operayions
     TK_DEC, TK_HEX,     // Number
     TK_LPARE, TK_RPARE, // Parenthesis
-    TK_NEGA,            // Symbol
-    TK_REG,             // Register
-
+    TK_NEGA, TK_DEREF,  // Symbol
+    TK_REG,             // Register 
 };
 
 static struct rule {
@@ -20,17 +21,21 @@ static struct rule {
   int token_type;
 } rules[] = {
 
-    {" +",           TK_NOTYPE},                 // spaces
-    {"\\+",          TK_PLUS},                   // plus
-    {"==",           TK_EQ},                     // equal
-    {"\\*",          TK_MUL},                    // multiply
-    {"\\-",          TK_SUB},                    // Subtraction
-    {"\\(",          TK_LPARE},                  // Left Parenthesis
-    {"\\)",          TK_RPARE},                  // Right Parenthesis 
-    {"/",            TK_DIV},                    // Devision
+    {" +", TK_NOTYPE},                 // spaces
+    {"\\+", TK_PLUS},                   // plus
+    {"!=", TK_NEQ},
+    {"==", TK_EQ},                     // equal
+    {"!", TK_NOT},
+    {"\\*", TK_MUL},                    // multiply
+    {"\\-", TK_SUB},                    // Subtraction
+    {"\\(", TK_LPARE},                  // Left Parenthesis
+    {"\\)", TK_RPARE},                  // Right Parenthesis 
+    {"/", TK_DIV},                    // Devision
+    {"\\|\\|", TK_OR},
+    {"&&", TK_AND},
     {"\\$[A-Za-z]+", TK_REG},                    // Register 
-    {"0x[A-Fa-f0-9]+",  TK_HEX},            // Hex Number 
-    {"[0-9]+",  TK_DEC},                    // Dec Number 
+    {"0x[A-Fa-f0-9]+", TK_HEX},            // Hex Number 
+    {"[0-9]+", TK_DEC},                    // Dec Number 
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -97,10 +102,17 @@ static bool make_token(char *e) {
                 ++nr_token;
                 break;
             }
-            case TK_PLUS: case TK_EQ: case TK_MUL: case TK_DIV:
+            case TK_MUL: {
+                if(nr_token == 0 || (tokens[nr_token - 1].type != TK_DEC && tokens[nr_token - 1].type != TK_HEX && tokens[nr_token - 1].type != TK_REG)){
+                    tokens[nr_token].type = TK_DEREF;
+                }
+                break;
+            }
+            case TK_OR: case TK_AND:
+            case TK_EQ: case TK_NEQ:
+            case TK_PLUS: case TK_DIV:
             case TK_LPARE: case TK_RPARE: 
-            case TK_DEC: case TK_HEX:
-            case TK_REG: {
+            case TK_DEC: case TK_HEX: case TK_REG: {
                 tokens[nr_token].type = rules[i].token_type;
                 strncpy(tokens[nr_token].str, substr_start, substr_len);
                 tokens[nr_token].str[substr_len] = '\0';
@@ -221,7 +233,45 @@ uint32_t eval(uint32_t p,uint32_t q){
         int op = 0;
         int temp_count = p;
         for(; temp_count <= q; ++temp_count){
-            switch(tokens[temp_count].type){
+            if(tokens[temp_count].type == TK_OR){
+                if(S != 0) continue;
+            }
+            else if(tokens[temp_count].type == TK_AND){
+                if(S != 0 || op_type < TK_AND) continue;
+            }
+            else if(tokens[temp_count].type == TK_EQ || tokens[temp_count].type == TK_NEQ){
+                if(S != 0 || op_type < TK_EQ) continue;
+            }
+            else if(tokens[temp_count].type == TK_PLUS || tokens[temp_count].type == TK_SUB){
+                if(S != 0 || op_type < TK_PLUS) continue;
+            }
+            else if(tokens[temp_count].type == TK_MUL || tokens[temp_count].type == TK_DIV){
+                if(S != 0 || op_type < TK_MUL) continue;
+            }
+            else if(tokens[temp_count].type == TK_LPARE){
+                ++S;
+                continue;
+            }
+            else if(tokens[temp_count].type == TK_RPARE){
+                if(S == 0){
+                    panic("Wrong Expression");
+                }
+                --S;
+                continue;
+            }
+            op = temp_count;
+            op_type = tokens[temp_count].type;
+            /*switch(tokens[temp_count].type){
+                case TK_OR: {
+                    if(S != 0) break;
+                    op = temp_count;
+                    op_type = tokens[temp_count].type;
+                    break;
+                }
+                case TK_AND: {
+                    if(S != 0) break;
+                    op = temp_count;
+                }
                 case TK_PLUS: case TK_SUB: {
                     if(S != 0) break;
                     op = temp_count;
@@ -249,7 +299,7 @@ uint32_t eval(uint32_t p,uint32_t q){
                     break;
                 }
                 default: break;
-            }
+            }*/
         }
         if(op == 0){
             if(tokens[p].type == TK_NEGA){
