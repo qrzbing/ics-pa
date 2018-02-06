@@ -51,14 +51,14 @@ static struct {
   char *description;
   int (*handler) (char *);
 } cmd_table [] = {
-  { "help", "Display informations about all supported commands", cmd_help },
-  { "c", "Continue the execution of the program", cmd_c },
-  { "q", "Exit NEMU", cmd_q },
-  /* TODO : Add more commands */
-  { "si", "Step command", cmd_si },
-  { "info", "Print register", cmd_info },
-  { "x", "Scan memory", cmd_x},
-  { "p", "Show infomation", cmd_p},
+    { "help", "help [cmmmand] , Display informations about all supported commands", cmd_help },
+    { "c", "c, Continue the execution of the program", cmd_c },
+    { "q", "Exit NEMU", cmd_q },
+    { "si", "Step command", cmd_si },
+    { "info", "Print register", cmd_info },
+    { "x", "Scan memory", cmd_x},
+    { "p", "Show infomation", cmd_p},
+    //( "math",  ) 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -136,7 +136,6 @@ static int cmd_info(char *args){
 
 
 static int cmd_x(char *args){
-    //printf("%d %d\n",TK_NOTYPE,TK_EQ);
     char *arg1=strtok(NULL," ");
     char line_cmd[80]="";
     while(true){
@@ -144,7 +143,6 @@ static int cmd_x(char *args){
         if(arg2==NULL) break;
         strcat(line_cmd,arg2);
     }
-    //printf("%s\n",line_cmd);
     bool success;
     uint32_t ans = expr(line_cmd, &success);
     if(success == true) {
