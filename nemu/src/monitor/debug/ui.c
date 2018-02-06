@@ -221,7 +221,7 @@ static int cmd_math(char *args){
     bool success;
     uint32_t ans = expr(line_cmd, &success);
     if(success == true){
-        printf("result = %d", ans);
+        printf("result = %d\n", ans);
         return 0;
     }
     else printf("Invalid Command.\n");
