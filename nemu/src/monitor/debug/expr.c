@@ -269,50 +269,13 @@ uint32_t eval(uint32_t p,uint32_t q){
                 op = temp_count;
                 op_type = tokens[temp_count].type;
             }
-            /*switch(tokens[temp_count].type){
-                case TK_OR: {
-                    if(S != 0) break;
-                    op = temp_count;
-                    op_type = tokens[temp_count].type;
-                    break;
-                }
-                case TK_AND: {
-                    if(S != 0) break;
-                    op = temp_count;
-                }
-                case TK_PLUS: case TK_SUB: {
-                    if(S != 0) break;
-                    op = temp_count;
-                    op_type = tokens[temp_count].type;
-                    break;
-                }
-                case TK_MUL: case TK_DIV: {
-                    if(S != 0) break;
-                    if(op_type < TK_MUL){
-                        break;
-                    }
-                    op = temp_count;
-                    op_type = tokens[temp_count].type;
-                    break;
-                }
-                case TK_LPARE: {
-                    ++S;
-                    break;
-                }
-                case TK_RPARE: {
-                    if(S == 0){
-                        panic("Wrong Expression");
-                    }
-                    --S;
-                    break;
-                }
-                default: break;
-            }*/
         }
         if(op == 0){
             if(tokens[p].type == TK_NEGA){
-                uint32_t ret = 0 - eval(p + 1, q);
-                return ret;
+                return 0 - eval(p + 1, q);
+            }
+            else if(tokens[p].type == TK_NOT){
+                return !(eval(p + 1, q));
             }
             else{
                 panic("What 's Wrong???");
@@ -323,9 +286,13 @@ uint32_t eval(uint32_t p,uint32_t q){
 
         switch (op_type) {
             case TK_PLUS: return val1 + val2;
-            case TK_SUB:  return val1 - val2;
-            case TK_MUL:  return val1 * val2;
-            case TK_DIV:  return val1 / val2;
+            case TK_SUB: return val1 - val2;
+            case TK_MUL: return val1 * val2;
+            case TK_DIV: return val1 / val2;
+            case TK_EQ: return val1 == val2;
+            case TK_NEQ: return val1 != val2;
+            case TK_AND: return val1 && val2;
+            case TK_OR: return val1 || val2;
             default: {
                 printf("Wrong op_type\n");
                 assert(0);
