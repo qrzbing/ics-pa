@@ -173,53 +173,26 @@ static int cmd_x(char *args){
     //printf("%s\n",line_cmd);
     bool success;
     uint32_t ans = expr(line_cmd, &success);
-    if(success == true){
-        printf("result = %d\n", ans);
-    }
-    else{
-        printf("Error\n");
-        return -1;
-    }
-    return 0;
-    if(arg1==NULL){
-        printf("Invalid command\n");
-        return -1;
-    }
-    else{
-        char arg2[1];
-        bool flag;
-        expr(arg2,&flag);
-        if(flag==true) printf("OK\n");
-        else {
-            printf("error\n");
-            return -1;
+    if(success == true) {
+        uint32_t addr = ans;
+        int temp_sum = atoi(arg1);
+        int temp_count = 0;
+        for(; temp_count < temp_sum; ++temp_count){
+            printf("0x%x ", vaddr_read(addr, 8));
+            addr += 8;
+            if(temp_count % 2 == 1){
+                printf("\n");
+            }
         }
-        int n=atoi(arg1);
-        long addr=strtol(arg2,NULL,16);
-        int i=0;
-        for(;i<n;++i){
-            int j=0;
-            char s[20];
-            sprintf(s,"%lx: ",addr);
-            printf("0x%s ",s);
-            printf("0x");
-            for(;j<8;++j){
-                printf("%02x",pmem[addr+j]);
-            }
-            printf(" ");
-            j=0;
-            if(++i>=n) break;
-            addr+=8;
-            for(;j<8;++j){
-                printf("%02x",pmem[addr+j]);
-            }
+        if(temp_count % 2 == 0){
             printf("\n");
-            addr+=8;
         }
-        if(n%2==1) printf("\n");
-        
+        return 0;
     }
-    return 0;
+    else {
+        printf("Invalid Command.\n");
+        return -1;
+    }
 }
 
 static int cmd_p(char *args){
