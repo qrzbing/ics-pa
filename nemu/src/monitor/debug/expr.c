@@ -106,6 +106,12 @@ static bool make_token(char *e) {
                 if(nr_token == 0 || (tokens[nr_token - 1].type != TK_DEC && tokens[nr_token - 1].type != TK_HEX && tokens[nr_token - 1].type != TK_REG)){
                     tokens[nr_token].type = TK_DEREF;
                 }
+                else{
+                    tokens[nr_token].type = TK_MUL;
+                }
+                strncpy(tokens[nr_token].str, substr_start, substr_len);
+                tokens[nr_token].str[substr_len] = '\0';
+                ++nr_token;
                 break;
             }
             case TK_OR: case TK_AND: case TK_NOT:
