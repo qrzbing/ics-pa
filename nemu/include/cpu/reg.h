@@ -37,17 +37,17 @@ typedef struct {
 
 extern CPU_state cpu;
 
-char *REG_32[] = {
+char *REG_32_STR[] = {
     "eax", "ecx", "edx", "ebx",
     "esp", "ebp", "esi", "edi",
 };
 
-char *REG_16[] = {
+char *REG_16_STR[] = {
     "ax", "dx", "cx", "bx",
     "bp", "si", "di", "sp",
 };
 
-char *REG_8[] = {
+char *REG_8_STR[] = {
     "al", "dl", "cl", "bl",
     "ah", "dh", "ch", "bh",
 };

@@ -116,14 +116,14 @@ static int cmd_info(char *args){
         if(strcmp(arg,"r")==0){
             int temp_count=0;
             for(temp_count = 0; temp_count < 8; ++temp_count){
-                printf("%s:    0x%x\n", REG_32[temp_count], reg_l(temp_count));
+                printf("%s:    0x%x\n", REG_32_STR[temp_count], reg_l(temp_count));
             }
             printf("eip:    0x%x\n", cpu.eip);
             for(temp_count = 0; temp_count < 8; ++temp_count){
-                printf("%s:     0x%x\n", REG_16[temp_count], reg_w(temp_count));
+                printf("%s:     0x%x\n", REG_16_STR[temp_count], reg_w(temp_count));
             }
             for(temp_count = 0; temp_count < 8; ++temp_count){
-                printf("%s:     0x%x\n", REG_8[temp_count], reg_b(temp_count));
+                printf("%s:     0x%x\n", REG_8_STR[temp_count], reg_b(temp_count));
             }
             /*
             printf("eax:    0x%x\n",cpu.eax);
