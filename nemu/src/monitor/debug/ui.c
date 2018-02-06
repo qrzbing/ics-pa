@@ -106,6 +106,10 @@ static int cmd_si(char *args) {
     return 0;
 }
 
+extern char *REG_32_STR[];
+extern char *REG_16_STR[];
+extern char *REG_8_STR[];
+
 static int cmd_info(char *args){
     char *arg = strtok(NULL," ");
 

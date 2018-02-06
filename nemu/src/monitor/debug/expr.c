@@ -171,7 +171,12 @@ static bool check_parentheses(uint32_t p,uint32_t q){
     }
     return false;
 }
+
 #include<stdlib.h>
+
+extern char *REG_32_STR[];
+extern char *REG_16_STR[];
+extern char *REG_16_STR[];
 
 uint32_t eval(uint32_t p,uint32_t q){
     //test_output(p,q);
