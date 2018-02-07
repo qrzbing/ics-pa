@@ -215,7 +215,8 @@ static int cmd_w(char *args){
     bool success;
     uint32_t ans = expr(line_cmd, &success);
     if(success == true){
-        WP *temp_watchpoint = new_WP();
+        WP *temp_watchpoint = NULL;
+        temp_watchpoint = new_WP();
         if(temp_watchpoint == NULL){
             printf("Watchpoint Overflow\n");
             return -1;
