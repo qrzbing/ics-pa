@@ -35,7 +35,8 @@ void cpu_exec(uint64_t n) {
     bool wp_ischanged = check_wp();
     if(wp_ischanged == true){
         nemu_state = NEMU_STOP;
-        ui_mainloop(true);
+        //ui_mainloop(true);
+        return;
     }
 #endif
 
