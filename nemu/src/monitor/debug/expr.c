@@ -5,6 +5,7 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#define EVAL_FAULT 0x80000000
 enum {
     TK_NOTYPE = 256, 
     TK_OR, TK_AND, TK_NOT, 
@@ -195,7 +196,8 @@ static bool check_parentheses(uint32_t p,uint32_t q){
 uint32_t eval(uint32_t p,uint32_t q){
     int S = 0;
     if(p > q){
-        panic("Wrong expression.");
+        printf("Wrong expression.\n");
+        return EVAL_FAULT;
     }
     else if (p == q){
         if(tokens[p].type == TK_DEC){
@@ -225,9 +227,12 @@ uint32_t eval(uint32_t p,uint32_t q){
             if(strcmp(temp_str, "eip") == 0){
                 return cpu.eip;
             }
-            panic("Wrong Register.");        }
+            printf("Wrong Register.\n");
+            return EVAL_FAULT;
+        }
         else{
-            panic("Wrong Number.");
+            printf("Wrong Number.\n");
+            return EVAL_FAULT;
         }
     }
     else if (check_parentheses(p, q) == true){
@@ -265,7 +270,8 @@ uint32_t eval(uint32_t p,uint32_t q){
             }
             else if(tokens[temp_count].type == TK_RPARE){
                 if(S == 0){
-                    panic("Wrong Expression");
+                    printf("Wrong Expression");
+                    return EVAL_FAULT;
                 }
                 --S;
                 continue;
@@ -287,11 +293,14 @@ uint32_t eval(uint32_t p,uint32_t q){
                 return vaddr_read(eval(p + 1, q), 4);
             }
             else{
-                panic("What 's Wrong???");
+                printf("Wrong Expression\n");
+                return EVAL_FAULT;
             }
         }
         uint32_t val1 = eval(p, op - 1);
         uint32_t val2 = eval(op + 1, q);
+        
+        if(val1 == EVAL_FAULT || val2 == EVAL_FAULT) return EVAL_FAULT;
 
         switch (op_type) {
             case TK_PLUS: return val1 + val2;
@@ -304,11 +313,11 @@ uint32_t eval(uint32_t p,uint32_t q){
             case TK_OR: return val1 || val2;
             default: {
                 printf("Wrong op_type\n");
-                assert(0);
+                return EVAL_FAULT;
             }
         }
     }
-    return -1;
+    return EVAL_FAULT;
 }
 
 uint32_t expr(char *e, bool *success) {
@@ -319,11 +328,7 @@ uint32_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
     *success = true;
-    return eval(0,nr_token - 1);
-    uint32_t ans1=eval(0,nr_token-1);
-    printf("%d\n", ans1);
-    *success = true;
-  //TODO();
-
-  return 0;
+    int ans = eval(0, nr_token - 1);
+    if(ans == 0x80000000) *success = false;
+    return ans;
 }
