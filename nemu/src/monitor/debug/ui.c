@@ -200,6 +200,8 @@ static int cmd_p(char *args){
     }
 }
 
+WP *new_WP();
+
 static int cmd_w(char *args){
     char line_cmd[80] = "\0";
     while(true){
@@ -228,6 +230,8 @@ static int cmd_w(char *args){
     }
     return 0;
 }
+
+void free_wp(int n);
 
 static int cmd_d(char *args){
     char line_cmd[80] = "\0";
