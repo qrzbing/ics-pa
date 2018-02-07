@@ -84,7 +84,7 @@ void show_used_wp(){
 bool check_wp(){
     WP *temp = head;
     bool ret = false;
-    while(head != NULL){
+    while(temp != NULL){
         bool success = false;
         uint32_t ans_new = expr(temp->expression, &success);
         if(success == true){
@@ -99,6 +99,7 @@ bool check_wp(){
         else{
             printf("Invalid Expression\n");
         }
+        temp = temp->next;
     }
     return ret;
 }
