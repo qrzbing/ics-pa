@@ -152,12 +152,12 @@ static int cmd_info(char *args){
 
 
 static int cmd_x(char *args){
-    char *arg1=strtok(NULL," ");
-    char line_cmd[80]="";
+    char *arg1 = strtok(NULL, " ");
+    char line_cmd[80] = "";
     while(true){
-        char *arg2=strtok(NULL," ");
-        if(arg2==NULL) break;
-        strcat(line_cmd,arg2);
+        char *arg2 = strtok(NULL, " ");
+        if(arg2 == NULL) break;
+        strcat(line_cmd, arg2);
     }
     bool success;
     uint32_t ans = expr(line_cmd, &success);
@@ -229,7 +229,7 @@ static int cmd_w(char *args){
         }
         strcpy(temp_watchpoint->expression, line_cmd);
         temp_watchpoint->value = ans;
-        printf("Watchpoint %d: %s\n", temp_watchpoint->NO + 1, line_cmd);
+        printf("Watchpoint %d: %s\n", temp_watchpoint->NO, line_cmd);
     }
     else{
         printf("Invalid Expression\n");
@@ -237,8 +237,6 @@ static int cmd_w(char *args){
     }
     return 0;
 }
-
-void free_wp(int n);
 
 static int cmd_d(char *args){
     char line_cmd[80] = "\0";
@@ -255,7 +253,7 @@ static int cmd_d(char *args){
     if(success == true){
         free_wp(ans);
     }
-    return -1;
+    return 0;
 }
 
 static int cmd_math(char *args){
