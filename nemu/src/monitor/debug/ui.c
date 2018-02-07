@@ -199,8 +199,7 @@ static int cmd_p(char *args){
         return -1;
     }
 }
-
-WP *new_WP();
+#include "monitor/watchpoint.h"
 
 static int cmd_w(char *args){
     char line_cmd[80] = "\0";
