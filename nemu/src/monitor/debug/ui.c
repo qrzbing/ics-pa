@@ -12,7 +12,6 @@ WP *new_WP();
 void free_wp(int n);
 void show_used_wp();
 
-
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
   static char *line_read = NULL;
@@ -178,12 +177,11 @@ static int cmd_x(char *args){
         if(temp_count % 2 == 1){
             printf("\n");
         }
-        return 0;
     }
     else {
         printf("Invalid Command.\n");
-        return -1;
     }
+    return 0;
 }
 
 static int cmd_p(char *args){
@@ -192,7 +190,8 @@ static int cmd_p(char *args){
         char *arg = strtok(NULL, " ");
         if(arg == NULL) break;
         if(strlen(arg) + strlen(line_cmd) > 80){
-            panic("Buffer Overflow.");
+            printf("Buffer Overflow.\n");
+            return 0;
         }
         strcat(line_cmd, arg);
     }
@@ -200,12 +199,11 @@ static int cmd_p(char *args){
     uint32_t ans = expr(line_cmd, &success);
     if(success == true){
         printf("%s = 0x%x\n", line_cmd, ans);
-        return 0;
     }
     else{
         printf("Invalid Command.\n");
-        return -1;
     }
+    return 0;
 }
 
 static int cmd_w(char *args){
@@ -214,7 +212,8 @@ static int cmd_w(char *args){
         char *arg = strtok(NULL, " ");
         if(arg == NULL) break;
         if(strlen(arg) + strlen(line_cmd) > 80){
-            panic("Buffer Overflow.");
+            printf("Buffer Overflow.\n");
+            return 0;
         }
         strcat(line_cmd, arg);
     }
@@ -225,7 +224,7 @@ static int cmd_w(char *args){
         temp_watchpoint = new_WP();
         if(temp_watchpoint == NULL){
             printf("Watchpoint Overflow\n");
-            return -1;
+            return 0;
         }
         strcpy(temp_watchpoint->expression, line_cmd);
         temp_watchpoint->value = ans;
@@ -233,7 +232,6 @@ static int cmd_w(char *args){
     }
     else{
         printf("Invalid Expression\n");
-        return -1;
     }
     return 0;
 }
@@ -244,7 +242,8 @@ static int cmd_d(char *args){
         char *arg = strtok(NULL, " ");
         if(arg == NULL) break;
         if(strlen(arg) + strlen(line_cmd) > 80){
-            panic("Buffer Overflow.");
+            printf("Buffer Overflow.\n");
+            return 0;
         }
         strcat(line_cmd, arg);
     }
@@ -252,6 +251,9 @@ static int cmd_d(char *args){
     uint32_t ans = expr(line_cmd, &success);
     if(success == true){
         free_wp(ans);
+    }
+    else{
+        printf("Invalid Command\n");
     }
     return 0;
 }
@@ -262,7 +264,8 @@ static int cmd_math(char *args){
         char *arg=strtok(NULL, " ");
         if(arg == NULL) break;
         if(strlen(arg) + strlen(line_cmd) > 80){
-            panic("Buffer Overflow");
+            printf("Buffer Overflow\n");
+            return 0;
         }
         strcat(line_cmd, arg);
     }
@@ -270,10 +273,9 @@ static int cmd_math(char *args){
     uint32_t ans = expr(line_cmd, &success);
     if(success == true){
         printf("result = %d\n", ans);
-        return 0;
     }
     else printf("Invalid Command.\n");
-    return -1;
+    return 0;
 }
 
 void ui_mainloop(int is_batch_mode) {
