@@ -201,10 +201,49 @@ static int cmd_p(char *args){
 }
 
 static int cmd_w(char *args){
-    return -1;
+    char line_cmd[80] = "\0";
+    while(true){
+        char *arg = strtok(NULL, " ");
+        if(arg == NULL) break;
+        if(strlen(arg) + strlen(line_cmd) > 80){
+            panic("Buffer Overflow.");
+        }
+        strcat(line_cmd, arg);
+    }
+    bool success;
+    uint32_t ans = expr(line_cmd, &success);
+    if(success == true){
+        WP *temp_watchpoint = new_WP();
+        if(temp_watchpoint == NULL){
+            printf("Watchpoint Overflow\n");
+            return -1;
+        }
+        strcpy(temp_watchpoint->expression, line_cmd);
+        temp_watchpoint->value = ans;
+        printf("Watchpoint %d: %s\n", temp_watchpoint->NO, line_cmd);
+    }
+    else{
+        printf("Invalid Expression\n");
+        return -1;
+    }
+    return 0;
 }
 
 static int cmd_d(char *args){
+    char line_cmd[80] = "\0";
+    while(true){
+        char *arg = strtok(NULL, " ");
+        if(arg == NULL) break;
+        if(strlen(arg) + strlen(line_cmd) > 80){
+            panic("Buffer Overflow.");
+        }
+        strcat(line_cmd, arg);
+    }
+    bool success;
+    uint32_t ans = expr(line_cmd, &success);
+    if(success == true){
+        free_wp(ans);
+    }
     return -1;
 }
 
