@@ -88,7 +88,7 @@ bool check_wp(){
         bool success = false;
         uint32_t ans_new = expr(temp->expression, &success);
         if(success == true){
-            if(ans_new == temp->value) continue;
+            if(ans_new == temp->value) temp = temp->next;
             else{
                 ret = true;
                 printf("Watchpoint %d: %s\n\n", temp->NO, temp->expression);
