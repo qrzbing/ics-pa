@@ -11,6 +11,9 @@
 int nemu_state = NEMU_STOP;
 
 void exec_wrapper(bool);
+bool check_wp();
+void ui_mainloop(int is_batch_mode);
+
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
@@ -29,7 +32,11 @@ void cpu_exec(uint64_t n) {
 
 #ifdef DEBUG
     /* TODO: check watchpoints here. */
-
+    bool wp_ischanged = check_wp();
+    if(wp_ischanged == true){
+        nemu_state = NEMU_STOP;
+        ui_mainloop(true);
+    }
 #endif
 
 #ifdef HAS_IOE

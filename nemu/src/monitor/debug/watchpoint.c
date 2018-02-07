@@ -80,3 +80,22 @@ void show_used_wp(){
         temp = temp->next;
     }
 }
+
+void check_wp(){
+    WP *temp = head;
+    while(head != NULL){
+        bool success = false;
+        uint32_t ans_new = expr(temp->expression, &success);
+        if(success == true){
+            if(ans_new == temp->value) continue;
+            else{
+                printf("Watchpoint %d: %s\n\n", temp->NO, temp->expression);
+                printf("Old value = 0x%08x\nNew value = 0x%08x\n", temp->value, ans_new);
+                temp->value = ans_new;
+            }
+        }
+        else{
+            printf("Invalid Expression\n");
+        }
+    }
+}
