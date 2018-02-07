@@ -68,3 +68,15 @@ void free_wp(int n){
     }
 }
 
+void show_used_wp(){
+    if(head == NULL){
+        printf("No watchpoints.\n");
+        return ;
+    }
+    WP *temp = head;
+    printf("Num     What\n");
+    while(temp != NULL){
+        printf("%-8d%s\n", temp->NO, temp->expression);
+        temp = temp->next;
+    }
+}

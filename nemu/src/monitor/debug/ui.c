@@ -8,6 +8,10 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
+WP *new_WP();
+void free_wp(int n);
+void show_used_wp();
+
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -118,11 +122,11 @@ static int cmd_si(char *args) {
 static int cmd_info(char *args){
     char *arg = strtok(NULL," ");
 
-    if(arg==NULL) {
+    if(arg == NULL) {
         printf("Invalid option.\n");
     }
     else{
-        if(strcmp(arg,"r")==0){
+        if(strcmp(arg, "r") == 0){
             int temp_count=0;
             for(temp_count = 0; temp_count < 8; ++temp_count){
                 printf("%s:    0x%x\n", regsl[temp_count], reg_l(temp_count));
@@ -134,6 +138,10 @@ static int cmd_info(char *args){
             for(temp_count = 0; temp_count < 8; ++temp_count){
                 printf("%s:     0x%x\n", regsb[temp_count], reg_b(temp_count));
             }
+        }
+        else if(strcmp(arg, "w") == 0){
+            show_used_wp();
+
         }
         else{
             printf("default\n");
@@ -199,7 +207,6 @@ static int cmd_p(char *args){
         return -1;
     }
 }
-#include "monitor/watchpoint.h"
 
 static int cmd_w(char *args){
     char line_cmd[80] = "\0";
@@ -222,7 +229,7 @@ static int cmd_w(char *args){
         }
         strcpy(temp_watchpoint->expression, line_cmd);
         temp_watchpoint->value = ans;
-        printf("Watchpoint %d: %s\n", temp_watchpoint->NO, line_cmd);
+        printf("Watchpoint %d: %s\n", temp_watchpoint->NO + 1, line_cmd);
     }
     else{
         printf("Invalid Expression\n");
