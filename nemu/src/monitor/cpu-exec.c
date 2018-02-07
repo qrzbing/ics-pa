@@ -36,7 +36,6 @@ void cpu_exec(uint64_t n) {
     if(wp_ischanged == true){
         nemu_state = NEMU_STOP;
         //ui_mainloop(true);
-        return;
     }
 #endif
 
