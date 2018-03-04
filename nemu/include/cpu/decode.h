@@ -83,8 +83,6 @@ make_DHelper(I_E2G);
 make_DHelper(I_G2E);
 make_DHelper(I);
 
-make_DHelper(call_rel);
-
 make_DHelper(r);
 make_DHelper(E);
 make_DHelper(gp7_E);

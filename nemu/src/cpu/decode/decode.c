@@ -174,11 +174,6 @@ make_DHelper(mov_I2r) {
   decode_op_I(eip, id_src, true);
 }
 
-/* Add by QRZ*/
-make_DHelper(call_rel) {
-    decode_op_I(eip, id_src, true);
-}
-
 /* used by unary operations */
 make_DHelper(I) {
   decode_op_I(eip, id_dest, true);
