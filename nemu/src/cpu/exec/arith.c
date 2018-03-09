@@ -8,8 +8,8 @@ make_EHelper(add) {
 
 make_EHelper(sub) {
   TODO();
-
-  print_asm_template2(sub);
+    rtl_sub(&t3, &id_dest->val, &id_src->val);
+    print_asm_template2(sub);
 }
 
 make_EHelper(cmp) {
