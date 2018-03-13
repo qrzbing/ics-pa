@@ -131,7 +131,7 @@ static int cmd_info(char *args){
     else{
         if(strcmp(arg, "r") == 0){
             int temp_count=0;
-            printf("Register%-8cHexadecimal%-4cDecimal\n", ' ', ' ');
+            printf("Register%-8cHexadecimal%-5cDecimal\n", ' ', ' ');
             for(temp_count = 0; temp_count < 8; ++temp_count){
                 printf("%-16s%#-16x%-20d\n", regsl[temp_count], reg_l(temp_count), reg_l(temp_count));
             }
