@@ -168,6 +168,10 @@ static int cmd_x(char *args){
     if(success == true) {
         uint32_t addr = ans;
         int temp_sum = atoi(arg1);
+        if(temp_sum <= 0){
+            printf("Invalid Number\n");
+            return 0;
+        }
         int temp_count = 0;
         if(temp_count > 100){
             printf("Overflow Number\n");
