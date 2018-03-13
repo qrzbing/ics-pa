@@ -22,21 +22,21 @@ static struct rule {
   int token_type;
 } rules[] = {
 
-    {" +", TK_NOTYPE},                 // spaces
+    {" +", TK_NOTYPE},                  // spaces
     {"\\+", TK_PLUS},                   // plus
-    {"!=", TK_NEQ},
-    {"==", TK_EQ},                     // equal
-    {"!", TK_NOT},
+    {"!=", TK_NEQ},                     // not equal 
+    {"==", TK_EQ},                      // equal
+    {"!", TK_NOT},                      // not
     {"\\*", TK_MUL},                    // multiply
-    {"\\-", TK_SUB},                    // Subtraction
-    {"\\(", TK_LPARE},                  // Left Parenthesis
-    {"\\)", TK_RPARE},                  // Right Parenthesis 
-    {"/", TK_DIV},                    // Devision
-    {"\\|\\|", TK_OR},
-    {"&&", TK_AND},
-    {"\\$[A-Za-z]+", TK_REG},                    // Register 
-    {"0x[A-Fa-f0-9]+", TK_HEX},            // Hex Number 
-    {"[0-9]+", TK_DEC},                    // Dec Number 
+    {"\\-", TK_SUB},                    // subtraction
+    {"\\(", TK_LPARE},                  // left Parenthesis
+    {"\\)", TK_RPARE},                  // right Parenthesis 
+    {"/", TK_DIV},                      // devision
+    {"\\|\\|", TK_OR},                  // or
+    {"&&", TK_AND},                     // and
+    {"\\$[A-Za-z]+", TK_REG},           // register 
+    {"0x[A-Fa-f0-9]+", TK_HEX},         // Hex Number 
+    {"[0-9]+", TK_DEC},                 // Dec Number 
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
