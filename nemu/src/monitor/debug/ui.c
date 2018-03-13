@@ -175,7 +175,7 @@ static int cmd_x(char *args){
         }
         for(; temp_count < temp_sum; ++temp_count){
             printf("%#-16x ", addr);
-            printf("%#08x\n ", vaddr_read(addr, 8));
+            printf("%#08x\n", vaddr_read(addr, 8));
             addr += 4;
         }
     }
