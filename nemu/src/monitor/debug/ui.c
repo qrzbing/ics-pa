@@ -173,9 +173,9 @@ static int cmd_x(char *args){
             printf("Overflow Number\n");
             return 0;
         }
-        printf("Address%8cBig-Endian%5cLittle-Endian", ' ', ' ');
+        printf("Address%9cBig-Endian%5cLittle-Endian\n", ' ', ' ');
         for(; temp_count < temp_sum; ++temp_count){
-            printf("%#-16x%#08x", addr, vaddr_read(addr, 8));
+            printf("%#-16x%#010x%5c", addr, vaddr_read(addr, 8), ' ');
             int j=0; printf("0x");
             for(;j<8;++j){
                 printf("%02x",pmem[addr+j]);           
