@@ -109,7 +109,7 @@ static int cmd_si(char *args) {
         if(i < -1) {
             /* illegal command */
             printf("Illegal command '%s'\n", arg);
-            return -1;
+            return 256;
         }
         else if(i == 0){
             cpu_exec(1);
