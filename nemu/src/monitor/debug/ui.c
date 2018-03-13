@@ -106,7 +106,7 @@ static int cmd_si(char *args) {
     }
     else {
         int i = atoi(arg);
-        if(i == 0) {
+        if(i <= 0) {
             /* illegal command */
             printf("Illegal command '%s'\n", arg);
             return -1;
