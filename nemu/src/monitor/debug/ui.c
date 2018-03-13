@@ -133,9 +133,9 @@ static int cmd_info(char *args){
             int temp_count=0;
             printf("register\n");
             for(temp_count = 0; temp_count < 8; ++temp_count){
-                printf("%-8s%#x\n", regsl[temp_count], reg_l(temp_count));
+                printf("%-16s%#x\n", regsl[temp_count], reg_l(temp_count));
             }
-            printf("eip     %#x\n", cpu.eip);
+            printf("eip%15c%#x\n", ' ', cpu.eip);
             for(temp_count = 0; temp_count < 8; ++temp_count){
                 printf("%-8s%#x\n", regsw[temp_count], reg_w(temp_count));
             }
