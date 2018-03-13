@@ -177,7 +177,7 @@ static int cmd_x(char *args){
         for(; temp_count < temp_sum; ++temp_count){
             printf("%#-16x%#010x%5c", addr, vaddr_read(addr, 8), ' ');
             int j=0; printf("0x");
-            for(;j<8;++j){
+            for(;j<4;++j){
                 printf("%02x",pmem[addr+j]);           
             }
             printf("\n");
