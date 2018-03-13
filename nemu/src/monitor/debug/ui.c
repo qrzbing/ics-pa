@@ -169,18 +169,14 @@ static int cmd_x(char *args){
         uint32_t addr = ans;
         int temp_sum = atoi(arg1);
         int temp_count = 0;
-        for(; temp_count < temp_sum; ++temp_count){
-            if(temp_count % 2 == 0){
-                printf("0x%x: ", addr);
-            }
-            printf("0x%08x ", vaddr_read(addr, 8));
-            addr += 4;
-            if(temp_count % 2 == 1){
-                printf("\n");
-            }
+        if(temp_count > 100){
+            printf("Overflow Number\n");
+            return 0;
         }
-        if(temp_count % 2 == 1){
-            printf("\n");
+        for(; temp_count < temp_sum; ++temp_count){
+            printf("%#-16x: ", addr);
+            printf("%#08x ", vaddr_read(addr, 8));
+            addr += 4;
         }
     }
     else {
