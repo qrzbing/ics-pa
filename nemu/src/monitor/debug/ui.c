@@ -142,6 +142,7 @@ static int cmd_info(char *args){
                 printf("%-16s%#-16x%-20d\n", regsb[temp_count], reg_b(temp_count), reg_b(temp_count));  
             }
             printf("eip%13c%#-16x%-20d\n", ' ', cpu.eip, cpu.eip);
+            printf("eflags%10c%#-16x%-20d\n", ' ', cpu.eflags, cpu.eflags);
         }
         else if(strcmp(arg, "w") == 0){
             show_used_wp();
