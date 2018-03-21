@@ -283,7 +283,7 @@ static int cmd_math(char *args){
     bool success;
     uint32_t ans = expr(line_cmd, &success);
     if(success == true){
-        printf("result = %d\n", ans);
+        printf("Dec result = %d\nHex result = %#x\n", ans, ans);
     }
     else printf("Invalid Command.\n");
     return 0;
