@@ -7,7 +7,7 @@
 #include <regex.h>
 #define EVAL_FAULT 0x80000000
 enum {
-    TK_NOTYPE = 256, 
+    TK_NOTYPE = 256,    // to skip ascii 256 
     TK_OR, TK_AND, TK_NOT, 
     TK_EQ, TK_NEQ,
     TK_PLUS, TK_SUB, TK_MUL, TK_DIV,    // Operayions
