@@ -6,8 +6,8 @@ make_EHelper(mov) {
 }
 
 make_EHelper(push) {
-    printf("%u\n",id_dest->val);
-    rtl_push(&reg_l(decoding.opcode - 80));
+    printf("%u\n", id_dest->val);
+    rtl_push(&reg_l(decoding.opcode & 0x7));
     print_asm_template1(push);
 }
 
