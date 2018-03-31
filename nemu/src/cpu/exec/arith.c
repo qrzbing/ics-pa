@@ -13,7 +13,7 @@ make_EHelper(sub) {
     printf("id_src->val = %d id_src->with = %d\n", id_src->val, id_src->width);
     printf("id_src2->val = %d\n", id_src2->val);
     printf("id_src->imm = %d\n", id_src->simm);
-    rtl_sub(&id_dest->val, &id_dest->val, &id_src2->val);
+    rtl_sub(&id_dest->val, &id_dest->val, &id_src->val);
     print_asm_template2(sub);
 }
 
