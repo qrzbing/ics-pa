@@ -10,6 +10,7 @@ make_EHelper(sub) {
     //rtl_sext()
     //printf("%d %d %d\n", id_dest->val, id_src->val, id_src2->val);
     // TODO();
+    printf("%d %d\n", id_src->val, id_src->width);
     rtl_sub(&id_dest->val, &id_src->val, &id_src2->val);
     print_asm_template2(sub);
 }
