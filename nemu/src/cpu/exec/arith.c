@@ -16,7 +16,8 @@ make_EHelper(sub) {
 
 make_EHelper(cmp) {
   TODO();
-
+    
+    operand_write(id_dest, &t0);
   print_asm_template2(cmp);
 }
 
