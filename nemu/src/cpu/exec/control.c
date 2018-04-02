@@ -35,12 +35,8 @@ make_EHelper(ret) {
   //printf("%d %x\n", id_dest->val, id_src->val);
     //printf("%d\n", id_src->width);
     printf("%#x\n", decoding.jmp_eip);
-    if(id_src->width == 2){
-        TODO();
-    }
-    else if(id_src->width == 4){
-        rtl_pop(&cpu.eip);
-    }
+    decoding.is_jmp = 1;
+    rtl_pop(&decoding.jmp_eip);
    // TODO();
 
   print_asm("ret");
