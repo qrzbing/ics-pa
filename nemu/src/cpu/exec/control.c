@@ -32,7 +32,9 @@ make_EHelper(call) {
 }
 
 make_EHelper(ret) {
-  TODO();
+  printf("%d %d\n", id_dest->val, id_src->val);
+    
+    TODO();
 
   print_asm("ret");
 }
