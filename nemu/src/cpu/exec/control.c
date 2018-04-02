@@ -33,7 +33,8 @@ make_EHelper(call) {
 
 make_EHelper(ret) {
   printf("%d %x\n", id_dest->val, id_src->val);
-    printf("%d\n", id_src->width); 
+    printf("%d\n", id_src->width);
+    printf("%#x\n", cpu.eip);
     if(id_src->width == 2){
         
     }
