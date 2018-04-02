@@ -153,11 +153,11 @@ static inline void rtl_push(const rtlreg_t* src1) {
 static inline void rtl_pop(rtlreg_t* dest) {
   // dest <- M[esp]
   // esp <- esp + 4
-    rtl_li(&t0,0x4);
-    rtl_sm(dest, t0, &cpu.esp);
-    rtl_add(&cpu.esp,&cpu.esp,&t0);
-    //*dest = vaddr_read(cpu.esp, 4);
-    //cpu.esp += 4;
+    //rtl_li(&t0,0x4);
+    //rtl_sm(dest, t0, &cpu.esp);
+    //rtl_add(&cpu.esp,&cpu.esp,&t0);
+    *dest = vaddr_read(cpu.esp, 4);
+    cpu.esp += 4;
 }
 
 static inline void rtl_eq0(rtlreg_t* dest, const rtlreg_t* src1) {
