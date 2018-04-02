@@ -13,8 +13,9 @@ make_EHelper(and) {
 }
 
 make_EHelper(xor) {
-  TODO();
-
+    printf("%d %d\n", id_dest->val, id_src->val);
+    TODO();
+    
   print_asm_template2(xor);
 }
 
