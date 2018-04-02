@@ -32,7 +32,7 @@ make_EHelper(call) {
 }
 
 make_EHelper(ret) {
-  printf("%d %d\n", id_dest->val, id_src->val);
+  printf("%d %x\n", id_dest->val, id_src->val);
     
     TODO();
 
