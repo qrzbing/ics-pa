@@ -34,7 +34,13 @@ make_EHelper(call) {
 make_EHelper(ret) {
   printf("%d %x\n", id_dest->val, id_src->val);
     printf("%d\n", id_src->width); 
-    TODO();
+    if(id_src->width == 2){
+        
+    }
+    else if(id_src->width == 4){
+        rtl_pop(&cpu.eip);
+    }
+   // TODO();
 
   print_asm("ret");
 }
