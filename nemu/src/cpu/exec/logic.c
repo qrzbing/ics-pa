@@ -13,7 +13,7 @@ make_EHelper(and) {
 }
 
 make_EHelper(xor) {
-    printf("%d %d\n", id_dest->val, id_src->val);
+    //printf("%d %d\n", id_dest->val, id_src->val);
     rtl_xor(&t0, &id_dest->val, &id_src->val);
     operand_write(id_dest, &t0);
     
