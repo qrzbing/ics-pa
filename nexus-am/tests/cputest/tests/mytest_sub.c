@@ -4,7 +4,10 @@
 	> Mail: qrzbing@nuaa.edu.cn
 	> Created Time: Tue Apr  3 10:00:01 2018
  ************************************************************************/
-
+#include"trap.h" 
 int main(){
-    return 1 - 2;
+    int a = 1;
+    int b = 2;
+    a = a - b;
+    return 0;
 }
