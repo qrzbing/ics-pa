@@ -7,6 +7,8 @@
 
 #include"trap.h"
 void func(){
+    int i = 1;
+    i += 1;
     return;
 }
 int main(){
