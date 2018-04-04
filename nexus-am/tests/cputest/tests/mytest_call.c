@@ -6,14 +6,14 @@
  ************************************************************************/
 
 #include"trap.h"
-int func(){
+int func(int p){
     int i = 1;
-    i += 1;
+    i += p;
     return i;
 }
 int main(){
-    int t;
-    t = func();
+    int t = 2;
+    t = func(t);
     t = t - 1;
     return 0;
 }
