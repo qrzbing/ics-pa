@@ -8,6 +8,7 @@ make_EHelper(test) {
 
 make_EHelper(and) {
     rtl_sext(&t1, &id_src->val, id_src->width);
+    printf("t1 = %#x\n", t1);
     rtl_and(&t0, &id_dest->val, &t1);
     operand_write(id_dest, &t0);
 
