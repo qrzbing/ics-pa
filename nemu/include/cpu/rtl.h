@@ -140,6 +140,7 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
     t0 = *src1;
     t0 = t0 << (32 - width * 8);
     t0 = t0 >> (32 - width * 8);
+    printf("t0 = %#x\n", t0);
     *dest = t0;
 }
 
