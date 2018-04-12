@@ -1,10 +1,11 @@
 #include "cpu/exec.h"
 
 make_EHelper(test) {
-    printf("%d %d %d\n", id_dest->val, id_src->val, id_src2->val);
-    //rtl_and()
-    TODO();
-  
+    rtl_and(&t0, &id_dest->val, &id_src->val);
+    operand_write(id_dest, &t0);
+    rtl_update_ZFSF(&t0, id_src->width);
+    rtl_set_CF(&tzero);
+    rtl_set_OF(&tzero);
     print_asm_template2(test);
 }
 
