@@ -6,7 +6,7 @@ make_EHelper(add) {
     // update ZFSF
     rtl_update_ZFSF(&t0, id_dest->width);
     // update CF
-    rtl_xor(&t1, &id_dest->val, &id_src->val);
+    rtl_and(&t1, &id_dest->val, &id_src->val);
     rtl_msb(&t1, &t1, id_dest->width);
     rtl_set_CF(&t1);
     // update OF
