@@ -39,7 +39,6 @@ make_EHelper(sub) {
 make_EHelper(cmp) {
     // only difference with sub is cmp don't need to write operand value
     rtl_sub(&t0, &id_dest->val, &id_src->val);
-    operand_write(id_dest, &t0);
     // update ZFSF
     rtl_update_ZFSF(&t0, id_dest->width);
     // update CF
