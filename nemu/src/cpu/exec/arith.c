@@ -10,35 +10,22 @@ make_EHelper(add) {
     rtl_msb(&t1, &t1, id_dest->width);
     rtl_set_CF(&t1);
     // update OF
-    // ~a&~b&sum | a&b&~sum
-    rtl_mv(&t1, &id_dest->val);
-    rtl_not(&t1);
-    rtl_mv(&t2, &id_src->val);
-    rtl_not(&t2);
+    rtl_xor(&t1, &t0, &id_dest->val);
+    rtl_xor(&t2, &t0, &id_src->val);
     rtl_and(&t1, &t1, &t2);
-    rtl_and(&t1, &t1, &t0);
-
-    rtl_mv(&t2, &t0);
-    rtl_not(&t2);
-    rtl_and(&t2, &t2, &id_dest->val);
-    rtl_and(&t2, &t2, &id_src->val);
-
-    rtl_or(&t1, &t1, &t2);
     rtl_msb(&t1, &t1, id_dest->width);
     rtl_set_OF(&t1);
     print_asm_template2(add);
 }
 
 make_EHelper(sub) {
-    //rtl_sext()
-    //printf("%d %d %d\n", id_dest->val, id_src->val, id_src2->val);
     rtl_sub(&t0, &id_dest->val, &id_src->val);
     operand_write(id_dest, &t0);
     // update ZFSF
     rtl_update_ZFSF(&t0, id_dest->width);
     // update CF
     rtl_sltu(&t1, &id_dest->val, &id_src->val);
-    // compare id_dest with id_src 
+    // compare id_dest with id_src which are both unsigned int num
     rtl_set_CF(&t1);
     // update OF
     rtl_xor(&t1, &id_dest->val, &id_src->val);
@@ -50,10 +37,22 @@ make_EHelper(sub) {
 }
 
 make_EHelper(cmp) {
-  TODO();
-    
+    // only difference with sub is cmp don't need to write operand value
+    rtl_sub(&t0, &id_dest->val, &id_src->val);
     operand_write(id_dest, &t0);
-  print_asm_template2(cmp);
+    // update ZFSF
+    rtl_update_ZFSF(&t0, id_dest->width);
+    // update CF
+    rtl_sltu(&t1, &id_dest->val, &id_src->val);
+    // compare id_dest with id_src which are both unsigned int num
+    rtl_set_CF(&t1);
+    // update OF
+    rtl_xor(&t1, &id_dest->val, &id_src->val);
+    rtl_xor(&t2, &id_dest->val, &t0);
+    rtl_and(&t1, &t1, &t2);
+    rtl_msb(&t1, &t1, id_dest->width);
+    rtl_set_OF(&t1);
+    print_asm_template2(cmp);
 }
 
 make_EHelper(inc) {
