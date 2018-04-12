@@ -1,9 +1,11 @@
 #include "cpu/exec.h"
 
 make_EHelper(test) {
-  TODO();
-
-  print_asm_template2(test);
+    printf("%d %d %d\n", id_dest->val, id_src->val, id_src2->val);
+    //rtl_and()
+    TODO();
+  
+    print_asm_template2(test);
 }
 
 make_EHelper(and) {

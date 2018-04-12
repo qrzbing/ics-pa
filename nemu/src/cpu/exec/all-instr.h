@@ -15,6 +15,7 @@ make_EHelper(push);
 make_EHelper(ret);
 make_EHelper(setcc);
 make_EHelper(sub);
+make_EHelper(test);
 make_EHelper(xor);
 make_EHelper(inv);
 make_EHelper(nemu_trap);
