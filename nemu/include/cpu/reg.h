@@ -32,7 +32,7 @@ typedef struct {
         };
     };
     union{
-        union{
+        struct{
             int CF:1;
             int pad1:1;
             int pad2:4;
