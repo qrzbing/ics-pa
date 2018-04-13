@@ -56,6 +56,7 @@ make_EHelper(cmp) {
     rtl_and(&t1, &t1, &t2);
     rtl_msb(&t1, &t1, id_dest->width);
     rtl_set_OF(&t1);
+    printf("%d\n", cpu.ZF);
     print_asm_template2(cmp);
 }
 
