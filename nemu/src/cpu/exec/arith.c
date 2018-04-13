@@ -46,6 +46,7 @@ make_EHelper(cmp) {
     printf("id_dest = %#x id_src = %#x\n", id_dest->val, id_src->val);
     rtl_sub(&t0, &id_dest->val, &id_src->val);
     // update ZFSF
+    printf("t0 = %d\n", t0);
     rtl_update_ZFSF(&t0, id_dest->width);
     // update CF
     rtl_sltu(&t1, &id_dest->val, &id_src->val);
