@@ -6,10 +6,13 @@ make_EHelper(add) {
     // update ZFSF
     rtl_update_ZFSF(&t0, id_dest->width);
     // update CF
-    rtl_and(&t1, &id_dest->val, &id_src->val);
-    rtl_msb(&t1, &t1, id_dest->width);
+    // CF = (t0 < dest) | (t0 < src);
+    rtl_sltu(&t1, &t0, &id_dest->val);
+    rtl_sltu(&t2, &t0, &id_src->val);
+    rtl_or(&t1, &t1, &t2);
     rtl_set_CF(&t1);
     // update OF
+    // OF = msb((t0 ^ dest) & (t0 ^ src));
     rtl_xor(&t1, &t0, &id_dest->val);
     rtl_xor(&t2, &t0, &id_src->val);
     rtl_and(&t1, &t1, &t2);
@@ -24,10 +27,12 @@ make_EHelper(sub) {
     // update ZFSF
     rtl_update_ZFSF(&t0, id_dest->width);
     // update CF
+    // CF = dest < src;
     rtl_sltu(&t1, &id_dest->val, &id_src->val);
     // compare id_dest with id_src which are both unsigned int num
     rtl_set_CF(&t1);
     // update OF
+    // OF = msb((dest ^ t0) & (dest ^ t0));
     rtl_xor(&t1, &id_dest->val, &id_src->val);
     rtl_xor(&t2, &id_dest->val, &t0);
     rtl_and(&t1, &t1, &t2);
