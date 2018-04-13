@@ -43,6 +43,7 @@ make_EHelper(sub) {
 
 make_EHelper(cmp) {
     // only difference with sub is cmp don't need to write operand value
+    printf("id_dest = %#x id_src = %#x\n", id_dest->val, id_src->val);
     rtl_sub(&t0, &id_dest->val, &id_src->val);
     // update ZFSF
     rtl_update_ZFSF(&t0, id_dest->width);
@@ -56,7 +57,7 @@ make_EHelper(cmp) {
     rtl_and(&t1, &t1, &t2);
     rtl_msb(&t1, &t1, id_dest->width);
     rtl_set_OF(&t1);
-    printf("%d\n", cpu.ZF);
+    printf("cpu.ZF = %d\n", cpu.ZF);
     print_asm_template2(cmp);
 }
 
