@@ -257,7 +257,7 @@ make_EHelper(div) {
 make_EHelper(idiv) {
   rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 
-    //printf("test\n");
+    printf("test\n");
   switch (id_dest->width) {
     case 1:
       rtl_lr_w(&t0, R_AX);
