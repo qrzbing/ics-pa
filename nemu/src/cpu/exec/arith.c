@@ -63,8 +63,22 @@ make_EHelper(cmp) {
 }
 
 make_EHelper(inc) {
-    rtl_addi(&t1, &id_dest->val, 1);
-    operand_write(id_dest, &t1);
+    rtl_addi(&t0, &id_dest->val, 1);
+    operand_write(id_dest, &t0);
+    
+    rtl_update_ZFSF(&t0, id_dest->width);
+    
+    rtl_sltu(&t1, &t0, &id_dest->val);
+    rtl_sltu(&t2, &t0, &id_src->val);
+    rtl_or(&t1, &t1, &t2);
+    rtl_set_CF(&t1);
+    
+    rtl_xor(&t1, &t0, &id_dest->val);
+    rtl_xor(&t2, &t0, &id_src->val);
+    rtl_and(&t1, &t1, &t2);
+    rtl_msb(&t1, &t1, id_dest->width);
+    rtl_set_OF(&t1);
+
     print_asm_template1(inc);
 }
 
