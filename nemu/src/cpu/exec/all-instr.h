@@ -5,6 +5,7 @@ make_EHelper(adc);
 make_EHelper(add);
 make_EHelper(and);
 make_EHelper(call);
+make_EHelper(cltd);
 make_EHelper(cmp);
 make_EHelper(dec);
 make_EHelper(imul1);
