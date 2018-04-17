@@ -259,6 +259,7 @@ make_EHelper(idiv) {
 
     //printf("test\n");
     printf("id_dest->width = %d\n", id_dest->width);
+    printf("eax = %d, edx = %d\n", cpu.eax, cpu.edx);
   switch (id_dest->width) {
     case 1:
       rtl_lr_w(&t0, R_AX);
