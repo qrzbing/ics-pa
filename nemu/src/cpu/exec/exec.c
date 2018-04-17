@@ -51,7 +51,7 @@ make_group(gp2,
 
   /* 0xf6, 0xf7 */
 make_group(gp3,
-    IDEX(test_I, test), EMPTY, EX(not), EX(call),
+    IDEX(test_I, test), EMPTY, EX(not), EMPTY,
     EMPTY, EX(imul1), EMPTY, EX(idiv))
 
   /* 0xfe */
@@ -61,7 +61,7 @@ make_group(gp4,
 
   /* 0xff */
 make_group(gp5,
-    EMPTY, EMPTY, EMPTY, EMPTY,
+    EMPTY, EMPTY, EMPTY, EX(call),
     EMPTY, EMPTY, EX(push), EMPTY)
 
   /* 0x0f 0x01*/
