@@ -6,6 +6,7 @@ make_EHelper(add);
 make_EHelper(and);
 make_EHelper(call);
 make_EHelper(cltd);
+make_EHelper(call_rm);
 make_EHelper(cmp);
 make_EHelper(dec);
 make_EHelper(idiv);
