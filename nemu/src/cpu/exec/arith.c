@@ -258,8 +258,8 @@ make_EHelper(idiv) {
   rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 
     //printf("test\n");
-    printf("id_dest->width = %d\n", id_dest->width);
-    printf("eax = %d, edx = %d\n", cpu.eax, cpu.edx);
+    //printf("id_dest->width = %d\n", id_dest->width);
+    //printf("eax = %d, edx = %d\n", cpu.eax, cpu.edx);
   switch (id_dest->width) {
     case 1:
       rtl_lr_w(&t0, R_AX);
@@ -282,9 +282,9 @@ make_EHelper(idiv) {
       break;
     default: assert(0);
   }
-    printf("t0 = %d, t1 = %d\n", t0, t1);
+    //printf("t0 = %d, t1 = %d\n", t0, t1);
   rtl_idiv(&t2, &t3, &t1, &t0, &id_dest->val);
-    printf("test8\n");
+    //printf("test8\n");
   rtl_sr(R_EAX, id_dest->width, &t2);
   if (id_dest->width == 1) {
     rtl_sr_b(R_AH, &t3);
