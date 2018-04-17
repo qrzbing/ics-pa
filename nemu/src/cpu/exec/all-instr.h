@@ -7,6 +7,7 @@ make_EHelper(and);
 make_EHelper(call);
 make_EHelper(cmp);
 make_EHelper(dec);
+make_EHelper(imul1);
 make_EHelper(inc);
 make_EHelper(inv);
 make_EHelper(jcc);
