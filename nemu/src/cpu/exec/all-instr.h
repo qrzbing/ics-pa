@@ -17,6 +17,7 @@ make_EHelper(mov);
 make_EHelper(movzx);
 make_EHelper(nemu_trap);
 make_EHelper(nop);
+make_EHelper(not);
 make_EHelper(operand_size);
 make_EHelper(or);
 make_EHelper(pop);
