@@ -31,9 +31,10 @@ make_EHelper(popa) {
 }
 
 make_EHelper(leave) {
-  TODO();
-
-  print_asm("leave");
+    cpu.esp = cpu.ebp;
+    printf("decoding.is_operand_size_16 = %d\n", decoding.is_operand_size_16);
+    rtl_pop(&cpu.ebp);
+    print_asm("leave");
 }
 
 make_EHelper(cltd) {

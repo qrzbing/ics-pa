@@ -10,6 +10,7 @@ make_EHelper(inc);
 make_EHelper(jcc);
 make_EHelper(jmp);
 make_EHelper(lea);
+make_EHelper(leave);
 make_EHelper(mov);
 make_EHelper(movzx);
 make_EHelper(nop);
