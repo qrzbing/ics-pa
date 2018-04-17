@@ -276,8 +276,9 @@ make_EHelper(idiv) {
       rtl_sub(&t1, &tzero, &t1);
       break;
     case 4:
-      printf("test4\n");
+      //printf("test4\n");
       rtl_lr_l(&t0, R_EAX);
+      printf("test5\n");
       rtl_lr_l(&t1, R_EDX);
       break;
     default: assert(0);
