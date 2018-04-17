@@ -282,6 +282,7 @@ make_EHelper(idiv) {
       break;
     default: assert(0);
   }
+    printf("t0 = %d, t1 = %d\n", t0, t1);
   rtl_idiv(&t2, &t3, &t1, &t0, &id_dest->val);
     printf("test8\n");
   rtl_sr(R_EAX, id_dest->width, &t2);
