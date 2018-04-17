@@ -280,6 +280,7 @@ make_EHelper(idiv) {
       rtl_lr_l(&t0, R_EAX);
       printf("test5\n");
       rtl_lr_l(&t1, R_EDX);
+      printf("test6\n");
       break;
     default: assert(0);
   }
