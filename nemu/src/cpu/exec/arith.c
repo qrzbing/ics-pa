@@ -63,9 +63,9 @@ make_EHelper(cmp) {
 }
 
 make_EHelper(inc) {
-  TODO();
-
-  print_asm_template1(inc);
+    rtl_li(&t0, 1);
+    rtl_sub(&id_dest->val, &id_dest->val, &t0);
+    print_asm_template1(inc);
 }
 
 make_EHelper(dec) {

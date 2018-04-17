@@ -6,6 +6,7 @@ make_EHelper(add);
 make_EHelper(and);
 make_EHelper(call);
 make_EHelper(cmp);
+make_EHelper(inc);
 make_EHelper(jcc);
 make_EHelper(jmp);
 make_EHelper(lea);
