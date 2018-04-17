@@ -278,15 +278,12 @@ make_EHelper(idiv) {
     case 4:
       //printf("test4\n");
       rtl_lr_l(&t0, R_EAX);
-      printf("test5\n");
       rtl_lr_l(&t1, R_EDX);
-      printf("test6\n");
       break;
     default: assert(0);
   }
-    printf("test7\n");
   rtl_idiv(&t2, &t3, &t1, &t0, &id_dest->val);
-
+    printf("test8\n");
   rtl_sr(R_EAX, id_dest->width, &t2);
   if (id_dest->width == 1) {
     rtl_sr_b(R_AH, &t3);
