@@ -138,17 +138,20 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
     //TODO();
     
-    int32_t ttemp = (int32_t)(*src1);
-    ttemp = ttemp << (32 - width * 8);
-    ttemp = ttemp >> (32 - width * 8);
-    *dest = ttemp;
+    //int32_t ttemp = (int32_t)(*src1);
+    //ttemp = ttemp << (32 - width * 8);
+    //ttemp = ttemp >> (32 - width * 8);
+    //*dest = ttemp;
+    //rtl_li(&t0, 32 - width * 8);
+    rtl_shli(dest, src1, 32 - width * 8);
+    rtl_sari(dest, src1, 32 - width * 8);
 }
 
 static inline void rtl_push(const rtlreg_t* src1) {
   // esp <- esp - 4
   // M[esp] <- src1
     rtl_li(&t0, 0x4);
-    rtl_subi(&cpu.esp, &cpu.esp, 4);
+    rtl_sub(&cpu.esp, &cpu.esp, &t0);
     rtl_sm(&cpu.esp, t0, src1);
 }
 
