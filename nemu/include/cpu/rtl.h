@@ -191,7 +191,8 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
     //cpu.ZF = (*result & temp) | 0;
     unsigned temp;
     rtl_eq0(&temp, result);
-    cpu.ZF = temp & 0x1;
+    rtl_set_ZF(&temp);
+    //cpu.ZF = temp & 0x1;
     //cpu.ZF = (*result & ~(0xffffffff << (8 * width - 1) << 1)) == 0;
 }
 
