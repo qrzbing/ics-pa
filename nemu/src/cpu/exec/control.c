@@ -34,7 +34,7 @@ make_EHelper(call) {
 make_EHelper(ret) {
   //printf("%d %x\n", id_dest->val, id_src->val);
     //printf("%d\n", id_src->width);
-    //printf("%x %x\n", decoding.jmp_eip, decoding.seq_eip);
+    printf("eip = %x %x\n", decoding.jmp_eip, decoding.seq_eip);
     decoding.is_jmp = 1;
     rtl_pop(&decoding.jmp_eip);
    // TODO();
