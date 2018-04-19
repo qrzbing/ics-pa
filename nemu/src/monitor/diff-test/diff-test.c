@@ -153,7 +153,9 @@ void difftest_step(uint32_t eip) {
     
     if(cpu.eax != r.eax || cpu.ecx != r.ecx || cpu.edx != r.edx ||\
        cpu.ebx != r.ebx || cpu.esp != r.esp || cpu.ebp != r.ebp ||\
-       cpu.esi != r.esi || cpu.edi != r.edi || cpu.eip != r.eip) diff = true;
+       cpu.esi != r.esi || cpu.edi != r.edi || cpu.eip != r.eip ||\
+       cpu.eflags != r.eflags) 
+        diff = true;
     //TODO();
     
 
