@@ -59,9 +59,9 @@ make_EHelper(cltd) {
     }
     else{
         rtl_lr(&t0, R_AX, 4);
-        rtl_msb(&t0, &t0, 2);
-        rtl_shli(&t0, &t0, 31);
-        rtl_sari(&t0, &t0, 32);
+        //rtl_msb(&t0, &t0, 2);
+        rtl_sari(&t0, &t0, 31);
+        rtl_sari(&t0, &t0, 1);
         rtl_sr(R_DX, 4, &t0);
     }
 
