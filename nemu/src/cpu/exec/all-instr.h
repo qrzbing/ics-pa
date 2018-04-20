@@ -25,6 +25,7 @@ make_EHelper(leave);
 make_EHelper(mov);
 make_EHelper(movsx);
 make_EHelper(movzx);
+make_EHelper(mul);
 make_EHelper(nemu_trap);
 make_EHelper(nop);
 make_EHelper(not);
