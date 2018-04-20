@@ -56,8 +56,9 @@ make_EHelper(in) {
 
 make_EHelper(out) {
   //TODO();
-    printf("%#x\n", id_dest->val);
-    operand_write(id_dest, &id_src->val);
+    //printf("%#x\n", id_dest->val);
+    pio_write(id_dest->val, id_dest->width, id_src->val);
+    //operand_write(id_dest, &id_src->val);
     print_asm_template2(out);
 
 #ifdef DIFF_TEST
