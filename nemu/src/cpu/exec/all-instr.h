@@ -29,6 +29,7 @@ make_EHelper(nop);
 make_EHelper(not);
 make_EHelper(operand_size);
 make_EHelper(or);
+make_EHelper(out);
 make_EHelper(pop);
 make_EHelper(push);
 make_EHelper(ret);
