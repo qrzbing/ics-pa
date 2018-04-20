@@ -8,6 +8,7 @@ make_EHelper(call);
 make_EHelper(cltd);
 make_EHelper(call_rm);
 make_EHelper(cmp);
+make_EHelper(cwtl);
 make_EHelper(dec);
 make_EHelper(div);
 make_EHelper(idiv);
