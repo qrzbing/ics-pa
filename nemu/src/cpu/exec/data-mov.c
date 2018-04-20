@@ -59,16 +59,16 @@ make_EHelper(cltd) {
     }
     else{
         rtl_lr(&t0, R_AX, 4);
-        //rtl_sari(&t0, &t0, 31);
-        //rtl_sari(&t0, &t0, 1);
-        //rtl_sr(R_DX, 4, &t0);
-        rtl_msb(&t0, &t0, 4);
+        rtl_sari(&t0, &t0, 31);
+        rtl_sari(&t0, &t0, 1);
+        rtl_sr(R_DX, 4, &t0);
+        /*rtl_msb(&t0, &t0, 4);
         if(t0 == 1){
             cpu.edx = 0xffffffff;
         }
         else {
             cpu.edx = 0;
-        }
+        }*/
     }
 
     print_asm(decoding.is_operand_size_16 ? "cwtl" : "cltd");
