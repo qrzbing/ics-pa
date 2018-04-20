@@ -270,7 +270,7 @@ make_EHelper(div) {
 make_EHelper(idiv) {
   rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 
-    //printf("test\n");
+    printf("test\n");
     //printf("id_dest->width = %d, id_dest->val = %d\n", id_dest->width, id_dest->val);
     //printf("eax = %d, edx = %d\n", cpu.eax, cpu.edx);
   switch (id_dest->width) {
