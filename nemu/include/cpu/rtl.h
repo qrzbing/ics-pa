@@ -116,7 +116,7 @@ static inline void rtl_sr(int r, int width, const rtlreg_t* src1) {
         cpu.f = *src & 0x1; \
     } \
     static inline void concat(rtl_get_, f) (rtlreg_t* dest) { \
-        *dest = cpu.f?1:0;\
+        *dest = cpu.f & 0x1;\
     }
 
 make_rtl_setget_eflags(CF)
@@ -138,13 +138,15 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
     //TODO();
     
-    int32_t ttemp = (int32_t)(*src1);
-    ttemp = ttemp << (32 - width * 8);
-    ttemp = ttemp >> (32 - width * 8);
-    *dest = ttemp;
+    //int32_t ttemp = (int32_t)(*src1);
+    //ttemp = ttemp << (32 - width * 8);
+    //ttemp = ttemp >> (32 - width * 8);
+    //*dest = ttemp;
     //rtl_li(&t0, 32 - width * 8);
     //rtl_shli(dest, src1, 32 - width * 8);
     //rtl_sari(dest, src1, 32 - width * 8);
+    rtl_shli(dest, src1, 32 - width * 8);
+    rtl_sari(dest, dest, 32 - width * 8);
 }
 
 static inline void rtl_push(const rtlreg_t* src1) {
