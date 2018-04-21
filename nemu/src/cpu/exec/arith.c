@@ -110,13 +110,14 @@ make_EHelper(dec) {
 
 make_EHelper(neg) {
     
-    rtl_eq0(&t1, &id_dest->val);
-    rtl_set_CF(&t1);
-    
     rtl_mv(&t0, &id_dest->val);
+    // id_dest->val = ~(id_dest->val) + 1;
     rtl_not(&t0);
     rtl_addi(&t0, &t0, 1);
     operand_write(id_dest, &t0);
+
+    rtl_eq0(&t1, &id_dest->val);
+    rtl_set_CF(&t1);
     
     rtl_update_ZFSF(&t0, id_dest->width);
     rtl_xor(&t1, &t0, &id_dest->val);
