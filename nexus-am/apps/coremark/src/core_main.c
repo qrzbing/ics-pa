@@ -50,7 +50,9 @@ void *iterate(void *pres) {
 		res->crc=crcu16(crc,res->crc);
 		crc=core_bench_list(res,-1);
 		res->crc=crcu16(crc,res->crc);
-		if (i==0) res->crclist=res->crc;
+		if (i==0) {res->crclist=res->crc;
+			printf("%#x\n", res->crclist);
+		}
 	}
 	return NULL;
 }
