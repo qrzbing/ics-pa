@@ -87,7 +87,7 @@ make_EHelper(cwtl) {
         rtl_sr_l(R_EAX, &t0);
     }
 
-  print_asm(decoding.is_operand_size_16 ? "cbtw" : "cwtl");
+    print_asm(decoding.is_operand_size_16 ? "cbtw" : "cwtl");
 }
 
 make_EHelper(movsx) {
