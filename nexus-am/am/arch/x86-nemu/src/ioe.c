@@ -44,7 +44,7 @@ void _draw_sync() {}
 #define KEYBOARD_IRQ 1
 int _read_key() {
     int keyvalue = _KEY_NONE;
-    if((inb(I8042_STATUS_PORT) & 0x1) == 1){
+    if(inb(I8042_STATUS_PORT) != 1){
         keyvalue = inl(I8042_DATA_PORT);
     }
     //return _KEY_NONE;
