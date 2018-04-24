@@ -39,7 +39,7 @@ void _draw_sync() {
 int _read_key() {
     int keyvalue = _KEY_NONE;
     if(inl(I8042_STATUS_PORT) == 1){
-        keyvalue = inb(I8042_DATA_PORT) & 0x11;
+        keyvalue = inb(I8042_DATA_PORT);
     }
     //return _KEY_NONE;
     return keyvalue;
