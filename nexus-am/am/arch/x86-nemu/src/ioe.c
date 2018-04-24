@@ -4,6 +4,12 @@
 #define RTC_PORT 0x48   // Note that this is not standard
 static unsigned long boot_time;
 
+
+#define I8042_DATA_PORT 0x60
+#define I8042_STATUS_PORT 0x64
+#define I8042_STATUS_HASKEY_MASK 0x1
+#define KEYBOARD_IRQ 1
+
 void _ioe_init() {
   boot_time = inl(RTC_PORT);
 }
@@ -32,8 +38,10 @@ void _draw_sync() {
 }
 int _read_key() {
     //return _KEY_NONE;
-    if(inl(0x64) == 1)
-        return inl(0x60);
-    else
+    if (inl(I8042_STATUS_PORT) == 0){
         return _KEY_NONE;
+    }
+    else {
+        return inl(I8042_DATA_PORT);
+    }
 }
