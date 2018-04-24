@@ -79,6 +79,7 @@ make_EHelper(not) {
 }
 
 make_EHelper(rol){
+    printf("id_dest = %#x id_src = %#x\n", id_dest->val, id_src->val);
     TODO();
     print_asm_template2(rol);
 }
