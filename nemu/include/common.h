@@ -1,7 +1,7 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
-#define DEBUG
+//#define DEBUG
 //#define DIFF_TEST
 
 /* You will define this macro in PA2 */
@@ -25,7 +25,5 @@ typedef uint16_t ioaddr_t;
 
 #define false 0
 #define true 1
-
-volatile static int dummy = 0;
 
 #endif
