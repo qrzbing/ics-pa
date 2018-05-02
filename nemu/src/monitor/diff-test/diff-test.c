@@ -159,6 +159,15 @@ void difftest_step(uint32_t eip) {
     
 
   if (diff) {
+      Log("cpu.eax = %#x  qemu.eax = %#x", cpu.eax, r.eax);
+      Log("cpu.ecx = %#x  qemu.eax = %#x", cpu.ecx, r.ecx);
+      Log("cpu.edx = %#x  qemu.edx = %#x", cpu.edx, r.edx);
+      Log("cpu.ebx = %#x  qemu.ebx = %#x", cpu.ebx, r.ebx);
+      Log("cpu.esp = %#x  qemu.esp = %#x", cpu.esp, r.esp);
+      Log("cpu.ebp = %#x  qemu.ebp = %#x", cpu.ebp, r.ebp);
+      Log("cpu.esi = %#x  qemu.esi = %#x", cpu.esi, r.esi);
+      Log("cpu.edi = %#x  qemu.edi = %#x", cpu.edi, r.edi);
+      Log("cpu.eip = %#x  qemu.eip = %#x", cpu.eip, r.eip);
     nemu_state = NEMU_END;
   }
 }
