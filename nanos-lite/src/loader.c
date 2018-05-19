@@ -1,7 +1,5 @@
 #include "common.h"
 
-extern uint8_t ramdisk_start;
-extern uint8_t ramdisk_end;
 extern size_t get_ramdisk_size();
 extern void ramdisk_read(void *buf, off_t offset, size_t len);
 
