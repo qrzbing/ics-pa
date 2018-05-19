@@ -15,6 +15,7 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  */
 
 typedef struct {
+    // gpr
     union{
         union {
         uint32_t _32;
@@ -31,7 +32,8 @@ typedef struct {
             rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
         };
     };
-    
+    vaddr_t eip;
+    // eflags
     union{
         struct{
             uint32_t CF:1;
@@ -46,12 +48,14 @@ typedef struct {
         };
         rtlreg_t eflags;
     };
-    vaddr_t eip;
-
+    // idt
+    // idtr
     struct {
         uint32_t base;
         uint16_t limit;
     };
+    // cs
+    uint16_t cs;
 } CPU_state;
 
 extern CPU_state cpu;
