@@ -1,6 +1,5 @@
 #include "cpu/exec.h"
 
-
 make_EHelper(adc);
 make_EHelper(add);
 make_EHelper(and);
@@ -16,6 +15,7 @@ make_EHelper(imul1);
 make_EHelper(imul2);
 make_EHelper(imul3);
 make_EHelper(in);
+make_EHelper(int);
 make_EHelper(inc);
 make_EHelper(inv);
 make_EHelper(jcc);
