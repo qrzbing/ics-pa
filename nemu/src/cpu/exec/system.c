@@ -12,7 +12,6 @@ make_EHelper(lidt) {
     else {
         cpu.idtr.base = vaddr_read(id_dest->addr + 2, 4);
     }
-    Log("base = %#x\n limit = %#x", cpu.idtr.base, cpu.idtr.limit);
     print_asm_template1(lidt);
 }
 
