@@ -153,8 +153,7 @@ void difftest_step(uint32_t eip) {
     
     if (cpu.eax != r.eax || cpu.ecx != r.ecx || cpu.edx != r.edx ||\
         cpu.ebx != r.ebx || cpu.esp != r.esp || cpu.ebp != r.ebp ||\
-        cpu.esi != r.esi || cpu.edi != r.edi || cpu.eip != r.eip ||\
-        cpu.cs != r.cs) 
+        cpu.esi != r.esi || cpu.edi != r.edi || cpu.eip != r.eip ) 
         diff = true;
     //TODO();
     
@@ -178,8 +177,6 @@ void difftest_step(uint32_t eip) {
             Log("cpu.edi = %#x  qemu.edi = %#x", cpu.edi, r.edi);
         if (cpu.eip != r.eip)
             Log("cpu.eip = %#x  qemu.eip = %#x", cpu.eip, r.eip);
-        if (cpu.cs != r.cs)
-            Log("cpu.cs  = %#x  qemu.cs  = %#x", cpu.cs, r.cs);
     nemu_state = NEMU_END;
   }
 }
