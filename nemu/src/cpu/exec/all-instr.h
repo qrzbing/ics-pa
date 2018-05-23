@@ -37,6 +37,7 @@ make_EHelper(or);
 make_EHelper(out);
 make_EHelper(pop);
 make_EHelper(push);
+make_EHelper(pusha);
 make_EHelper(ret);
 make_EHelper(rol);
 make_EHelper(setcc);
