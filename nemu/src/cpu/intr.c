@@ -7,11 +7,14 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
    */
 
     // TODO();
+    
     t0 = cpu.cs;
-    rtl_push(&t0);
     rtl_push(&cpu.eflags);
+    rtl_push(&t0);
     rtl_push(&ret_addr);
+    
     vaddr_t addr = NO * 8 + cpu.idtr.base;
+    
     union {
         GateDesc tempGate;
         struct {
