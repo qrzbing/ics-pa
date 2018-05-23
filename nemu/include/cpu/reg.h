@@ -53,7 +53,7 @@ typedef struct {
     struct {
         uint32_t base;
         uint16_t limit;
-    };
+    } idtr;
     // cs
     uint16_t cs;
 } CPU_state;
