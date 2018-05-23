@@ -41,14 +41,6 @@ make_EHelper(pusha) {
         rtl_lr_l(&t1, R_ESI); rtl_push(&t1);
         rtl_lr_l(&t1, R_EDI); rtl_push(&t1);
     }
-    rtl_push(&cpu.eax);
-    rtl_push(&cpu.ecx);
-    rtl_push(&cpu.edx);
-    rtl_push(&cpu.ebx);
-    rtl_push(&t0);
-    rtl_push(&cpu.ebp);
-    rtl_push(&cpu.esi);
-    rtl_push(&cpu.edi);
     print_asm("pusha");
 }
 
