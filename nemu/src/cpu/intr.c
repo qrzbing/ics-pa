@@ -18,9 +18,8 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
       item.lo = vaddr_read(addr, 4);
       item.hi = vaddr_read(addr + 4, 4);
 
-    Log("lo = %#x", item.lo);
-    Log("hi = %#x", item.hi);
-      decoding.is_jmp = 1;
+    Log("%#x", cpu.idtr.base);  
+    decoding.is_jmp = 1;
       decoding.jmp_eip = (item.gd.offset_15_0 & 0xFFFF)
         | ((item.gd.offset_31_16 & 0xFFFF) << 16);
 
@@ -28,7 +27,6 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
       rtl_push(&t0);
       rtl_push(&cpu.eflags);
       rtl_push(&decoding.seq_eip);
-    Log("%#x", decoding.jmp_eip);
 }
 
 void dev_raise_intr() {
