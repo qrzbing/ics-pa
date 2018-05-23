@@ -1,9 +1,12 @@
 #include "common.h"
 
 static _RegSet* do_event(_Event e, _RegSet* r) {
-  switch (e.event) {
-    default: panic("Unhandled event ID = %d", e.event);
-  }
+    switch (e.event) {
+        //case _EVENT_SYSCALL:
+         //   do_syscall(r); 
+          //  break;
+        default: panic("Unhandled event ID = %d", e.event);
+    }
 
   return NULL;
 }
