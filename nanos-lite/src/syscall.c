@@ -4,8 +4,10 @@
 static inline int sys_write(int fd, uint8_t *buf, size_t count){
     size_t len = 0;
     if(fd == 1 || fd == 2){
-        while(len++ < count){
-            _putc(*buf++);
+        while(len < count){
+            _putc(*buf);
+            ++len;
+            ++buf;
         }
         return len;
     }
