@@ -32,7 +32,7 @@ int _write(int fd, void *buf, size_t count){
 
 extern char end;
 void *_sbrk(intptr_t increment){
-    return (void *)-1;
+    // return (void *)-1;
     static void *program_break = (void *)&end;
 
     if(_syscall_(SYS_brk, 0, 0, 0) == 0){
