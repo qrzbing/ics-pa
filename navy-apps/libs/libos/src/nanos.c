@@ -27,11 +27,20 @@ int _open(const char *path, int flags, mode_t mode) {
 
 int _write(int fd, void *buf, size_t count){
     return _syscall_(SYS_write, fd, (uintptr_t)buf, count);
-  // _exit(SYS_write);
+    // _exit(SYS_write);
 }
 
+extern char end;
 void *_sbrk(intptr_t increment){
-  return (void *)-1;
+    // return (void *)-1;
+    static void *program_break = (void *)&end;
+
+    if(_syscall_(SYS_brk, 0, 0, 0) == 0){
+        void *old_program_break = program_break;
+        program_break += increment;
+        return old_program_break;
+    }
+    return (void *)-1;
 }
 
 int _read(int fd, void *buf, size_t count) {
