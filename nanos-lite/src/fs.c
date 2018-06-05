@@ -48,7 +48,7 @@ ssize_t fs_read(int fd, void *buf, size_t len){
     }
 
     switch(fd){
-        case FD_STDIN: case FD_STDOUT: case FD_STDERR:
+        case FD_STDOUT: case FD_STDERR:
             return -1;
         default:
             ramdisk_read(buf, fp->disk_offset + fp->open_offset, len);
@@ -85,16 +85,17 @@ off_t fs_lseek(int fd, off_t offset, int whence){
     
     switch(whence){
         case SEEK_SET:
-            fp->open_offset = offset;
             break;
         case SEEK_CUR:
-            fp->open_offset = fp->open_offset + offset;
+            offset = fp->open_offset + offset;
             break;
         case SEEK_END:
-            fp->open_offset = fp->size + offset;
+            offset = fp->size + offset;
             break;
         default: return -1;
     }
+    if(offset < 0 || offset > fp->size) return -1;
+    fp->open_offset = offset;
     return fp->open_offset;
 }
 
