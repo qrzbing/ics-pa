@@ -40,7 +40,6 @@ int fs_open(const char *pathname, int flags, int mode){
 
 void ramdisk_read(void *buf, off_t offset, size_t len);
 ssize_t fs_read(int fd, void *buf, size_t len){
-    
     Finfo *fp = &file_table[fd];
     
     if(fp->size - fp->open_offset < len){
@@ -51,6 +50,7 @@ ssize_t fs_read(int fd, void *buf, size_t len){
         case FD_STDOUT: case FD_STDERR:
             return -1;
         default:
+            if(fd < 6 || fd >= NR_FILES) return -1;
             ramdisk_read(buf, fp->disk_offset + fp->open_offset, len);
             fp->open_offset += len;
         return len;
@@ -62,17 +62,18 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
     
     Finfo *fp = &file_table[fd];
 
-    if(fp->size - fp->open_offset < len){
-        len = fp->size - fp->open_offset;
-    }
+    //if(fp->size - fp->open_offset < len){
+    //    len = fp->size - fp->open_offset;
+    //}
 
     size_t i = 0;
     switch(fd){
-        case FD_STDIN: return -1;
         case FD_STDOUT: case FD_STDERR:
             while(i++ < len) _putc(*buf++);
             return len;
         default:
+            if(fd < 6 || fd >= NR_FILES) return -1;
+            assert(len <= fp->size - fp->open_offset);
             ramdisk_write(buf, fp->disk_offset + fp->open_offset, len);
             fp->open_offset += len;
             return len;
@@ -83,6 +84,8 @@ off_t fs_lseek(int fd, off_t offset, int whence){
     
     Finfo *fp = &file_table[fd];
     
+    if(fd < 6 || fd > NR_FILES) return 0;
+
     switch(whence){
         case SEEK_SET:
             break;
