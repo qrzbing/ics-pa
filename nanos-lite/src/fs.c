@@ -101,8 +101,8 @@ off_t fs_lseek(int fd, off_t offset, int whence){
     
     Finfo *fp = &file_table[fd];
     
-  assert(fd < NR_FILES);
-//     if(fd < 6 || fd > NR_FILES) return 0;
+//   assert(fd < NR_FILES);
+    if(fd < 6 || fd >= NR_FILES) return 0;
 
     switch(whence){
         case SEEK_SET:
