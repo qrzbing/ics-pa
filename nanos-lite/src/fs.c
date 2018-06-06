@@ -45,8 +45,8 @@ void ramdisk_read(void *buf, off_t offset, size_t len);
 ssize_t fs_read(int fd, void *buf, size_t len){
     Finfo *fp = &file_table[fd];
     
-    size_t write_len;
-    size_t delta_len = fp->size - fp->open_offset;
+    ssize_t write_len;
+    ssize_t delta_len = fp->size - fp->open_offset;
     write_len = delta_len < len?delta_len:len;
 
     switch(fd){
@@ -70,8 +70,8 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
     
     Finfo *fp = &file_table[fd];
 
-    size_t write_len;
-    size_t delta_len = fp->size - fp->open_offset;
+    ssize_t write_len;
+    ssize_t delta_len = fp->size - fp->open_offset;
     write_len = delta_len < len?delta_len:len;
 
     size_t i = 0;
