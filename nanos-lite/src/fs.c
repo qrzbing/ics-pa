@@ -83,7 +83,7 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
             return len;
         
         case FD_FB:
-            fb_write(buf, fp->open_offset, write_len);
+            fb_write(buf, fp->open_offset, len);
             break;
 
         default:
