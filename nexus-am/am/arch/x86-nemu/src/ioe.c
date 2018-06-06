@@ -15,8 +15,8 @@ unsigned long _uptime() {
 uint32_t* const fb = (uint32_t *)0x40000;
 
 _Screen _screen = {
-  .width  = 400,
-  .height = 300,
+  .width  = 640,
+  .height = 480,
 };
 
 extern void* memcpy(void *, const void *, int);
