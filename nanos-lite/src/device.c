@@ -19,11 +19,11 @@ void dispinfo_read(void *buf, off_t offset, size_t len) {
 }
 
 void fb_write(const void *buf, off_t offset, size_t len) {
-    int x, y;
+    int row, col;
     offset /= 4;
-    x = offset % _screen.width;
-    y = offset / _screen.width;
-    _draw_rect(buf, x, y, len/4, 1);
+    col = offset % _screen.width;
+    row = offset / _screen.width;
+    _draw_rect(buf, col, row, len/4, 1);
 
 }
 
@@ -33,5 +33,5 @@ void init_device() {
     // TODO: print the string to array `dispinfo` with the format
     // described in the Navy-apps convention
     sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d\n", _screen.width, _screen.height);
-    Log("dispinfo:\n%s", dispinfo);
+    //Log("dispinfo:\n%s", dispinfo);
 }
