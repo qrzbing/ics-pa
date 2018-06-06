@@ -53,7 +53,7 @@ ssize_t fs_read(int fd, void *buf, size_t len){
         case FD_STDOUT: case FD_STDERR:
             return -1;
         case FD_DISPINFO:
-            dispinfo_read(buf, fp->open_offset, write_len);
+            dispinfo_read(buf, fp->open_offset, len);
             break;
         default:
             if(fd < 6 || fd >= NR_FILES) return -1;
