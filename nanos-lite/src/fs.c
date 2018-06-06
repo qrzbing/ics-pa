@@ -47,7 +47,7 @@ ssize_t fs_read(int fd, void *buf, size_t len){
     }
 
     switch(fd){
-        case FD_STDOUT: case FD_STDERR:
+        case FD_STDIN: case FD_STDOUT: case FD_STDERR:
             return -1;
         default:
             if(fd < 6 || fd >= NR_FILES) return -1;
