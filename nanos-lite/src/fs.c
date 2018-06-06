@@ -75,7 +75,7 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
 
     size_t i = 0;
     switch(fd){
-        case FD_STDIN: return -1;
+        //case FD_STDIN: return -1;
         
         case FD_STDOUT: case FD_STDERR:
             while(i++ < len) _putc(*buf++);
