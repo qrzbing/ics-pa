@@ -65,9 +65,8 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
     
     Finfo *fp = &file_table[fd];
 
-    //if(fp->size - fp->open_offset < len){
-    //    len = fp->size - fp->open_offset;
-    //}
+    size_t write_len;
+    write_len = (fp->size - fp->open_offset < len)?(fp->size - fp->open_offset):len;
 
     size_t i = 0;
     switch(fd){
@@ -78,14 +77,13 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
             return len;
         
         case FD_FB:
-            fb_write(buf, fp->open_offset, len);
+            fb_write(buf, fp->open_offset, write_len);
             break;
 
         default:
             if(fd < 6 || fd >= NR_FILES) return -1;
-            assert(len <= fp->size - fp->open_offset);
-            ramdisk_write(buf, fp->disk_offset + fp->open_offset, len);
-            fp->open_offset += len;
+            ramdisk_write(buf, fp->disk_offset + fp->open_offset, write_len);
+            fp->open_offset += write_len;
             return len;
     }
 
