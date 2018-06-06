@@ -43,6 +43,7 @@ int fs_open(const char *pathname, int flags, int mode){
 
 void dispinfo_read(void *buf, off_t offset, size_t len);
 void ramdisk_read(void *buf, off_t offset, size_t len);
+size_t events_read(void *buf, size_t len);
 ssize_t fs_read(int fd, void *buf, size_t len){
     Finfo *fp = &file_table[fd];
     
@@ -55,6 +56,8 @@ ssize_t fs_read(int fd, void *buf, size_t len){
         case FD_DISPINFO:
             dispinfo_read(buf, fp->open_offset, len);
             break;
+        case FD_EVENTS:
+            return events_read(buf, len);
         default:
             if(fd < 6 || fd >= NR_FILES) return -1;
             ramdisk_read(buf, fp->disk_offset + fp->open_offset, write_len);
