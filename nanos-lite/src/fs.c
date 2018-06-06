@@ -60,6 +60,7 @@ ssize_t fs_read(int fd, void *buf, size_t len){
             ramdisk_read(buf, fp->disk_offset + fp->open_offset, write_len);
             break;
     }
+
     fp->open_offset += write_len;
     return write_len;
 }
