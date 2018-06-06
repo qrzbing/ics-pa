@@ -28,18 +28,18 @@ void init_fs() {
     file_table[FD_FB].open_offset = 0;
 }
 
-// int fs_open(const char *pathname, int flags, int mode){
-//     int fd;
-//     for(fd = 0; fd < NR_FILES; ++fd){
-//         if(strcmp(pathname, file_table[fd].name) == 0){
-//             break;
-//         }
-//     }
-//     if(fd >= NR_FILES) panic("file not found!");
-//     file_table[fd].open_offset = 0;
-//     Log("OPEN [%d] %s", fd, pathname);
-//     return fd;
-// }
+int fs_open(const char *pathname, int flags, int mode){
+    int fd;
+    for(fd = 0; fd < NR_FILES; ++fd){
+        if(strcmp(pathname, file_table[fd].name) == 0){
+            break;
+        }
+    }
+    if(fd >= NR_FILES) panic("file not found!");
+    file_table[fd].open_offset = 0;
+    Log("OPEN [%d] %s", fd, pathname);
+    return fd;
+}
 
 // void dispinfo_read(void *buf, off_t offset, size_t len);
 // void ramdisk_read(void *buf, off_t offset, size_t len);
@@ -167,17 +167,17 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len) {
   return nwrite;
 }
 
-int fs_open(const char *pathname, int flags, int mode) {
-  (void)flags; (void)mode; /* UNUSED */
-  int fd;
-  for (fd = 0; fd < NR_FILES; fd++)
-    if (strcmp(pathname, file_table[fd].name) == 0)
-      break;
-  assert(fd != NR_FILES);
-  file_table[fd].open_offset = 0;
+// int fs_open(const char *pathname, int flags, int mode) {
+//   (void)flags; (void)mode; /* UNUSED */
+//   int fd;
+//   for (fd = 0; fd < NR_FILES; fd++)
+//     if (strcmp(pathname, file_table[fd].name) == 0)
+//       break;
+//   assert(fd != NR_FILES);
+//   file_table[fd].open_offset = 0;
 
-  return fd;
-}
+//   return fd;
+// }
 
 ssize_t fs_read(int fd, void *buf, size_t len) {
   ssize_t size, nread;
