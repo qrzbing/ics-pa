@@ -22,11 +22,11 @@ static Finfo file_table[] __attribute__((used)) = {
 
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 
-// void init_fs() {
-//     // TODO: initialize the size of /dev/fb
-//     file_table[FD_FB].size = _screen.width * _screen.height * sizeof(uint32_t);
-//     file_table[FD_FB].open_offset = 0;
-// }
+void init_fs() {
+    // TODO: initialize the size of /dev/fb
+    file_table[FD_FB].size = _screen.width * _screen.height * sizeof(uint32_t);
+    file_table[FD_FB].open_offset = 0;
+}
 
 // int fs_open(const char *pathname, int flags, int mode){
 //     int fd;
@@ -132,11 +132,11 @@ void ramdisk_write(const void *buf, off_t offset, size_t len);
 void fb_write(const void *buf, off_t offset, size_t len);
 void dispinfo_read(void *buf, off_t offset, size_t len);
 
-void init_fs() {
-  // TODO: initialize the size of /dev/fb
-  file_table[FD_FB].size = _screen.width * _screen.height * sizeof(uint32_t);
-  file_table[FD_FB].open_offset = 0;
-}
+// void init_fs() {
+//   // TODO: initialize the size of /dev/fb
+//   file_table[FD_FB].size = _screen.width * _screen.height * sizeof(uint32_t);
+//   file_table[FD_FB].open_offset = 0;
+// }
 
 ssize_t fs_write(int fd, uint8_t *buf, size_t len) {
   size_t i = 0;
