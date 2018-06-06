@@ -41,30 +41,30 @@ int fs_open(const char *pathname, int flags, int mode){
     return fd;
 }
 
-// void dispinfo_read(void *buf, off_t offset, size_t len);
-// void ramdisk_read(void *buf, off_t offset, size_t len);
-// ssize_t fs_read(int fd, void *buf, size_t len){
-//     Finfo *fp = &file_table[fd];
+void dispinfo_read(void *buf, off_t offset, size_t len);
+void ramdisk_read(void *buf, off_t offset, size_t len);
+ssize_t fs_read(int fd, void *buf, size_t len){
+    Finfo *fp = &file_table[fd];
     
-//     ssize_t delta_len = fp->size - fp->open_offset;
-//     ssize_t write_len = delta_len < len?delta_len:len;
+    ssize_t delta_len = fp->size - fp->open_offset;
+    ssize_t write_len = delta_len < len?delta_len:len;
 
-//     switch(fd){
-//         case FD_STDOUT: case FD_STDERR:
-//             return -1;
-//         case FD_DISPINFO:
-//             dispinfo_read(buf, fp->open_offset, len);
-//             break;
-//         default:
-//             if(fd < 6 || fd >= NR_FILES) return -1;
-//             ramdisk_read(buf, fp->disk_offset + fp->open_offset, write_len);
-//             break;
-//     }
+    switch(fd){
+        case FD_STDOUT: case FD_STDERR:
+            return -1;
+        case FD_DISPINFO:
+            dispinfo_read(buf, fp->open_offset, len);
+            break;
+        default:
+            if(fd < 6 || fd >= NR_FILES) return -1;
+            ramdisk_read(buf, fp->disk_offset + fp->open_offset, write_len);
+            break;
+    }
 
-//     fp->open_offset += write_len;
-//     // fs_lseek()
-//     return write_len;
-// }
+    fp->open_offset += write_len;
+    // fs_lseek()
+    return write_len;
+}
 
 // void fb_write(const void *buf, off_t offset, size_t len);
 // void ramdisk_write(const void *buf, off_t offset, size_t len);
@@ -179,35 +179,35 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len) {
 //   return fd;
 // }
 
-ssize_t fs_read(int fd, void *buf, size_t len) {
-  ssize_t size, nread;
-  Finfo *fp = &file_table[fd];
+// ssize_t fs_read(int fd, void *buf, size_t len) {
+//   ssize_t size, nread;
+//   Finfo *fp = &file_table[fd];
 
-  size = fp->size - fp->open_offset;
-  nread = len > size ? size : len;
+//   size = fp->size - fp->open_offset;
+//   nread = len > size ? size : len;
 
 
-  switch (fd) {
-  case FD_STDOUT:
-  case FD_STDERR:
-    return -1;
+//   switch (fd) {
+//   case FD_STDOUT:
+//   case FD_STDERR:
+//     return -1;
 
-  case FD_DISPINFO:
-    dispinfo_read(buf, fp->open_offset, nread);
-    break;
+//   case FD_DISPINFO:
+//     dispinfo_read(buf, fp->open_offset, nread);
+//     break;
 
-//   case FD_EVENTS:
-//     return events_read(buf, len);
+// //   case FD_EVENTS:
+// //     return events_read(buf, len);
 
-  default:
-    if (fd < 6 || fd >= NR_FILES)
-      return -1;
-    ramdisk_read(buf, fp->disk_offset + fp->open_offset, nread);
-    break;
-  }
-  fp->open_offset += nread;
-  return nread;
-}
+//   default:
+//     if (fd < 6 || fd >= NR_FILES)
+//       return -1;
+//     ramdisk_read(buf, fp->disk_offset + fp->open_offset, nread);
+//     break;
+//   }
+//   fp->open_offset += nread;
+//   return nread;
+// }
 
 off_t fs_lseek(int fd, off_t offset,int whence) {
   Finfo *fp = &file_table[fd];
