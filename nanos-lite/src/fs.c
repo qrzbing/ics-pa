@@ -50,7 +50,7 @@ ssize_t fs_read(int fd, void *buf, size_t len){
     write_len = delta_len < len?delta_len:len;
 
     switch(fd){
-        case FD_STDIN: case FD_STDOUT: case FD_STDERR:
+        case FD_STDOUT: case FD_STDERR:
             return -1;
         case FD_DISPINFO:
             dispinfo_read(buf, fp->open_offset, write_len);
