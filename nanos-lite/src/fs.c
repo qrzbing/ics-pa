@@ -23,7 +23,9 @@ static Finfo file_table[] __attribute__((used)) = {
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 
 void init_fs() {
-  // TODO: initialize the size of /dev/fb
+    // TODO: initialize the size of /dev/fb
+    file_table[FD_FB].size = _screen.width * _screen.height * sizeof(uint32_t);
+    file_table[FD_FB].open_offset = 0;
 }
 
 int fs_open(const char *pathname, int flags, int mode){
@@ -57,21 +59,28 @@ ssize_t fs_read(int fd, void *buf, size_t len){
     }
 }
 
+void fb_write(const void *buf, off_t offset, size_t len);
 void ramdisk_write(const void *buf, off_t offset, size_t len);
 ssize_t fs_write(int fd, uint8_t *buf, size_t len){
     
     Finfo *fp = &file_table[fd];
 
-    //if(fp->size - fp->open_offset < len){
-    //    len = fp->size - fp->open_offset;
-    //}
+    if(fp->size - fp->open_offset < len){
+        len = fp->size - fp->open_offset;
+    }
 
     size_t i = 0;
     switch(fd){
         case FD_STDIN: return -1;
+        
         case FD_STDOUT: case FD_STDERR:
             while(i++ < len) _putc(*buf++);
             return len;
+        
+        case FD_FB:
+            fb_write(buf, fp->open_offset, len);
+            break;
+
         default:
             if(fd < 6 || fd >= NR_FILES) return -1;
             assert(len <= fp->size - fp->open_offset);
@@ -79,6 +88,8 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
             fp->open_offset += len;
             return len;
     }
+
+    return len;
 }
 
 off_t fs_lseek(int fd, off_t offset, int whence){
