@@ -100,8 +100,7 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
 off_t fs_lseek(int fd, off_t offset, int whence){
     
     Finfo *fp = &file_table[fd];
-    
-//   assert(fd < NR_FILES);
+
     if(fd >= NR_FILES) return 0;
 
     switch(whence){
@@ -128,20 +127,3 @@ size_t fs_filesz(int fd){
     return file_table[fd].size;
 }
 
-// off_t fs_lseek(int fd, off_t offset,int whence) {
-//   Finfo *fp = &file_table[fd];
-
-//   assert(fd < NR_FILES);
-
-//   switch (whence) {
-//   case SEEK_END: offset = fp->size + offset; break;
-//   case SEEK_CUR: offset = fp->open_offset + offset; break;
-//   case SEEK_SET: break;
-//   default: return -1;
-//   }
-
-//   if (offset > fp->size || offset < 0)
-//     return -1;
-
-//   return fp->open_offset = offset;
-// }
