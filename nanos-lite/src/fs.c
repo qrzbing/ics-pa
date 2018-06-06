@@ -40,23 +40,27 @@ int fs_open(const char *pathname, int flags, int mode){
     return fd;
 }
 
+void dispinfo_read(void *buf, off_t offset, size_t len);
 void ramdisk_read(void *buf, off_t offset, size_t len);
 ssize_t fs_read(int fd, void *buf, size_t len){
     Finfo *fp = &file_table[fd];
     
-    if(fp->size - fp->open_offset < len){
-        len = fp->size - fp->open_offset;
-    }
+    size_t write_len;
+    size_t delta_len = fp->size - fp->open_offset;
+    write_len = delta_len < len?delta_len:len;
 
     switch(fd){
         case FD_STDIN: case FD_STDOUT: case FD_STDERR:
             return -1;
+        case FD_DISPINFO:
+            dispinfo_read(buf, fp->open_offset, write_len);
+            break;
         default:
             if(fd < 6 || fd >= NR_FILES) return -1;
-            ramdisk_read(buf, fp->disk_offset + fp->open_offset, len);
-            fp->open_offset += len;
-        return len;
+            ramdisk_read(buf, fp->disk_offset + fp->open_offset, write_len);
+            fp->open_offset += write_len;
     }
+    return write_len;
 }
 
 void fb_write(const void *buf, off_t offset, size_t len);
@@ -85,7 +89,7 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
             if(fd < 6 || fd >= NR_FILES) return -1;
             ramdisk_write(buf, fp->disk_offset + fp->open_offset, write_len);
             fp->open_offset += write_len;
-            return len;
+            return write_len;
     }
 
     return len;
