@@ -119,53 +119,13 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
 //     return fp->open_offset;
 // }
 
-// int fs_close(int fd){
-//     return 0;
-// }
+int fs_close(int fd){
+    return 0;
+}
 
-// size_t fs_filesz(int fd){
-//     return file_table[fd].size;
-// }
-
-void ramdisk_read(void *buf, off_t offset, size_t len);
-void ramdisk_write(const void *buf, off_t offset, size_t len);
-void fb_write(const void *buf, off_t offset, size_t len);
-void dispinfo_read(void *buf, off_t offset, size_t len);
-
-// void init_fs() {
-//   // TODO: initialize the size of /dev/fb
-//   file_table[FD_FB].size = _screen.width * _screen.height * sizeof(uint32_t);
-//   file_table[FD_FB].open_offset = 0;
-// }
-
-// ssize_t fs_write(int fd, uint8_t *buf, size_t len) {
-//   size_t i = 0;
-//   size_t size, nwrite;
-//   Finfo *fp = &file_table[fd];
-
-//   size = fp->size - fp->open_offset;
-//   nwrite = len > size ? size : len;
-
-//   switch (fd) {
-//   case FD_STDOUT:
-//   case FD_STDERR:
-//     while (i++ < len)
-//       _putc(*buf++);
-//     return len;
-
-//   case FD_FB:
-//     fb_write(buf, fp->open_offset, nwrite);
-//     break;
-
-//   default:
-//     if (fd < 6 || fd >= NR_FILES)
-//       return -1;
-//     ramdisk_write(buf, fp->disk_offset + fp->open_offset, nwrite);
-//     break;
-//   }
-//   fp->open_offset += nwrite;
-//   return nwrite;
-// }
+size_t fs_filesz(int fd){
+    return file_table[fd].size;
+}
 
 off_t fs_lseek(int fd, off_t offset,int whence) {
   Finfo *fp = &file_table[fd];
@@ -185,11 +145,11 @@ off_t fs_lseek(int fd, off_t offset,int whence) {
   return fp->open_offset = offset;
 }
 
-int fs_close(int fd) {
-  (void)fd;
-  return 0;
-}
+// int fs_close(int fd) {
+//   (void)fd;
+//   return 0;
+// }
 
-size_t fs_filesz(int fd) {
-  return file_table[fd].size;
-}
+// size_t fs_filesz(int fd) {
+//   return file_table[fd].size;
+// }
