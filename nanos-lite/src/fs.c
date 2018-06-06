@@ -58,8 +58,8 @@ ssize_t fs_read(int fd, void *buf, size_t len){
         default:
             if(fd < 6 || fd >= NR_FILES) return -1;
             ramdisk_read(buf, fp->disk_offset + fp->open_offset, write_len);
-            fp->open_offset += write_len;
     }
+    fp->open_offset += write_len;
     return write_len;
 }
 
