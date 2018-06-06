@@ -65,9 +65,9 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
     
     Finfo *fp = &file_table[fd];
 
-    if(fp->size - fp->open_offset < len){
-        len = fp->size - fp->open_offset;
-    }
+    //if(fp->size - fp->open_offset < len){
+    //    len = fp->size - fp->open_offset;
+    //}
 
     size_t i = 0;
     switch(fd){
