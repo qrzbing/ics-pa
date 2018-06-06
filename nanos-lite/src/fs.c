@@ -37,6 +37,7 @@ int fs_open(const char *pathname, int flags, int mode){
     }
     if(fd >= NR_FILES) panic("file not found!");
     file_table[fd].open_offset = 0;
+    Log("OPEN [%d] %s", fd, pathname);
     return fd;
 }
 
