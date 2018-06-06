@@ -13,7 +13,7 @@ size_t events_read(void *buf, size_t len) {
     if(key_value == _KEY_NONE){
         snprintf(buf, len, "t %d\n", _uptime());
     }
-    else if((key_value & 0x8000) == false){
+    else if((key_value & 0x8000) == true){
         key_value ^= 0x8000;
         snprintf(buf, len, "kd %s\n", keyname[key_value]);
     }
