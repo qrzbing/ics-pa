@@ -88,11 +88,11 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
         default:
             if(fd < 6 || fd >= NR_FILES) return -1;
             ramdisk_write(buf, fp->disk_offset + fp->open_offset, write_len);
-            return write_len;
+            break;
     }
 
     fp->open_offset += write_len;
-    return len;
+    return write_len;
 }
 
 off_t fs_lseek(int fd, off_t offset, int whence){
