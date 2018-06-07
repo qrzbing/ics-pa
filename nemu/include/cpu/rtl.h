@@ -193,7 +193,14 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
     // rtl_eq0(&temp, result);
     // rtl_set_ZF(&temp);
     // cpu.ZF = temp & 0x1;
-    cpu.ZF = ((*result == 0)?1:0 )&0x1;
+    // cpu.ZF = ((*result == 0)?1:0 )&0x1;
+    unsigned int temp = ~0;
+    unsigned int tone = 0x1;
+    rtl_shri(&temp, &temp, 8 * (4 - width));
+    rtl_and(&temp, &temp, result);
+
+    if(temp == 0) rtl_set_ZF(&tone);
+    else rtl_set_ZF(&tzero);
     //cpu.ZF = (*result & ~(0xffffffff << (8 * width - 1) << 1)) == 0;
 }
 
