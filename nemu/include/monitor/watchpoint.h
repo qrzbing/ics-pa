@@ -7,8 +7,19 @@ typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
 
-    char expression[80];
-    uint32_t value;
+  /* TODO: Add more members if necessary */
+  char *expr;
+  uint32_t old;
+
+
 } WP;
+
+void init_wp_pool();
+WP *new_wp();
+void free_wp(WP *);
+bool wp_has_changed();
+WP *find_wp(int);
+void print_wp();
+
 
 #endif
