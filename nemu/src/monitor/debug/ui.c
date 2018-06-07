@@ -8,9 +8,6 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
-WP *new_WP();
-void free_wp(int n);
-void show_used_wp();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -39,37 +36,137 @@ static int cmd_q(char *args) {
   return -1;
 }
 
+static int cmd_si(char *args) {
+  int n;
+  if (args == NULL || sscanf(args, "%i", &n) != 1)
+    n = 1;
+  cpu_exec(n);
+  return 0;
+}
+
+static int cmd_info(char *args) {
+  int i;
+  char *subcmd;
+
+  if ((subcmd = strtok(NULL, " ")) == NULL) {
+    printf("Nothing to do.\n");
+  } else if (strcmp(subcmd, "r") == 0) {
+    for (i = R_EAX; i <= R_EDI; i++)
+      printf("%s\t0x%08x\n", regsl[i], reg_l(i));
+    printf("eip\t0x%08x\n", cpu.eip);
+  } else if (strcmp(subcmd, "w") == 0) {
+    print_wp();
+  } else {
+    printf("Unknown subcommand: %s\n", subcmd);
+  }
+
+  return 0;
+}
+
+static int cmd_x(char *args) {
+  int n;
+  bool success;
+  vaddr_t addr;
+
+  char *arg_n = strtok(NULL, " ");
+  char *arg_addr = arg_n + strlen(arg_n) + 1;
+
+  if (arg_addr == NULL || *arg_addr == '\0'
+      || arg_n == NULL || sscanf(arg_n, "%i", &n) != 1 || n < 1)
+    goto err;
+
+  addr = expr(arg_addr, &success);
+  if (!success)
+    goto err;
+
+  while (n--) {
+    printf("0x%08x: 0x%08x\n", addr, vaddr_read(addr, 4));
+    addr += 4;
+  }
+  return 0;
+
+err:
+  printf("Invalid command.\n");
+  return 0;
+}
+
+static int cmd_p(char *args) {
+  bool success;
+  uint32_t result;
+  if (args)
+    result = expr(args, &success);
+  else
+    goto err;
+
+  if (success) {
+    printf("%d\n", result);
+    return 0;
+  }
+
+err:
+  printf("Invalid expression\n");
+  return 0;
+}
+
+static int cmd_w(char *args) {
+  bool success;
+  uint32_t val;
+
+  if (args == NULL)
+    goto err;
+
+  val = expr(args, &success);
+  if (!success)
+    goto err;
+
+  WP *wp = new_wp();
+  wp->expr = strdup(args);
+  wp->old = val;
+  printf("Watchpoint %d: %s\n", wp->NO, wp->expr);
+  return 0;
+
+err:
+  printf("Invalid expression.\n");
+  return 0;
+}
+
+static int cmd_d(char *args) {
+  int n;
+  WP *wp;
+
+  if (args == NULL || sscanf(args, "%i", &n) != 1) {
+    printf("Invalid watchpoint number: \'%s\'.", args);
+    return 0;
+  }
+  wp = find_wp(n);
+  if (wp == NULL) {
+    printf("Watchpoint %d doesn't exist.\n", n);
+    return 0;
+  }
+  free_wp(wp);
+  printf("Watchpoint %d is deleted.\n", n);
+  return 0;
+}
+
 static int cmd_help(char *args);
-
-static int cmd_si(char *args);
-
-static int cmd_info(char *args);
-
-static int cmd_x(char *args);
-
-static int cmd_p(char *args);
-
-static int cmd_w(char *args);
-
-static int cmd_d(char *args);
-
-static int cmd_math(char *args);
 
 static struct {
   char *name;
   char *description;
   int (*handler) (char *);
 } cmd_table [] = {
-    { "help", "help [cmmmand] , Display informations about all supported commands", cmd_help },
-    { "c", "c, Continue the execution of the program", cmd_c },
-    { "q", "q, Exit NEMU", cmd_q },
-    { "si", "si [N], Step command", cmd_si },
-    { "info", "info SUBCMD, Print register", cmd_info },
-    { "x", "x N EXPR, Scan memory", cmd_x },
-    { "p", "p EXPR, Show infomation", cmd_p },
-    { "w", "w EXPR, Watch ", cmd_w },
-    { "d", "d N, Delete Watchpoint", cmd_d },
-    { "math", "math EXPR, Arithmetic evaluation", cmd_math },
+  { "help", "Display informations about all supported commands", cmd_help },
+  { "c", "Continue the execution of the program", cmd_c },
+  { "q", "Exit NEMU", cmd_q },
+  { "si", "Step [N] instruction exactly.", cmd_si },
+  { "info", "[r] List registers; [w] List watchpoints.", cmd_info },
+  { "x", "Examine the contents of memory.", cmd_x },
+  { "p", "Print the value of the expression", cmd_p},
+  { "w", "Watchpoint", cmd_w},
+  { "d", "Delete watchpoint", cmd_d},
+
+  /* TODO: Add more commands */
+
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -95,198 +192,6 @@ static int cmd_help(char *args) {
     printf("Unknown command '%s'\n", arg);
   }
   return 0;
-}
-
-static int cmd_si(char *args) {
-    char *arg = strtok(NULL," ");
-
-    if(arg == NULL) {
-        /* no argument given */
-        cpu_exec(1); 
-    }
-    else {
-        int i = atoi(arg);
-        if(i < -1) {
-            /* illegal command */
-            printf("Invalid command '%s'\n", arg);
-            return 256;
-        }
-        else if(i == 0){
-            cpu_exec(1);
-            return 0;
-        }
-        cpu_exec(i);
-    }
-    
-    return 0;
-}
-
-
-static int cmd_info(char *args){
-    char *arg = strtok(NULL," ");
-
-    if(arg == NULL) {
-        printf("Invalid option.\n");
-    }
-    else{
-        if(strcmp(arg, "r") == 0){
-            int temp_count=0;
-            printf("Register%-8cHexadecimal%-5cDecimal\n", ' ', ' ');
-            for(temp_count = 0; temp_count < 8; ++temp_count){
-                printf("%-16s%#-16x%-20d\n", regsl[temp_count], reg_l(temp_count), reg_l(temp_count));
-            }
-            for(temp_count = 0; temp_count < 8; ++temp_count){
-                printf("%-16s%#-16x%-20d\n", regsw[temp_count], reg_w(temp_count), reg_w(temp_count));
-            }
-            for(temp_count = 0; temp_count < 8; ++temp_count){
-                printf("%-16s%#-16x%-20d\n", regsb[temp_count], reg_b(temp_count), reg_b(temp_count));  
-            }
-            printf("eip%13c%#-16x%-20d\n", ' ', cpu.eip, cpu.eip);
-            printf("eflags%10c%#-16x%-20d\n", ' ', cpu.eflags, cpu.eflags);
-        }
-        else if(strcmp(arg, "w") == 0){
-            show_used_wp();
-
-        }
-        else{
-            printf("default\n");
-        }
-    }
-    return 0;
-}
-
-
-static int cmd_x(char *args){
-    char *arg1 = strtok(NULL, " ");
-    char line_cmd[80] = "";
-    while(true){
-        char *arg2 = strtok(NULL, " ");
-        if(arg2 == NULL) break;
-        strcat(line_cmd, arg2);
-    }
-    bool success;
-    uint32_t ans = expr(line_cmd, &success);
-    if(success == true) {
-        uint32_t addr = ans;
-        int temp_sum = atoi(arg1);
-        if(temp_sum <= 0){
-            printf("Invalid Number\n");
-            return 0;
-        }
-        int temp_count = 0;
-        if(temp_count > 100){
-            printf("Overflow Number\n");
-            return 0;
-        }
-        printf("Address%9cBig-Endian%5cLittle-Endian\n", ' ', ' ');
-        for(; temp_count < temp_sum; ++temp_count){
-            printf("%#-16x%#010x%5c", addr, vaddr_read(addr, 8), ' ');
-            int j=0; printf("0x");
-            for(;j<4;++j){
-                printf("%02x",pmem[addr+j]);           
-            }
-            printf("\n");
-            addr += 4;
-        }
-    }
-    else {
-        printf("Invalid Command.\n");
-    }
-    return 0;
-}
-
-static int cmd_p(char *args){
-    char line_cmd[80] = "\0";
-    while(true){
-        char *arg = strtok(NULL, " ");
-        if(arg == NULL) break;
-        if(strlen(arg) + strlen(line_cmd) > 80){
-            printf("Buffer Overflow.\n");
-            return 0;
-        }
-        strcat(line_cmd, arg);
-    }
-    bool success;
-    uint32_t ans = expr(line_cmd, &success);
-    if(success == true){
-        printf("%s = 0x%x\n", line_cmd, ans);
-    }
-    else{
-        printf("Invalid Command.\n");
-    }
-    return 0;
-}
-
-static int cmd_w(char *args){
-    char line_cmd[80] = "\0";
-    while(true){
-        char *arg = strtok(NULL, " ");
-        if(arg == NULL) break;
-        if(strlen(arg) + strlen(line_cmd) > 80){
-            printf("Buffer Overflow.\n");
-            return 0;
-        }
-        strcat(line_cmd, arg);
-    }
-    bool success;
-    uint32_t ans = expr(line_cmd, &success);
-    if(success == true){
-        WP *temp_watchpoint = NULL;
-        temp_watchpoint = new_WP();
-        if(temp_watchpoint == NULL){
-            printf("Watchpoint Overflow\n");
-            return 0;
-        }
-        strcpy(temp_watchpoint->expression, line_cmd);
-        temp_watchpoint->value = ans;
-        printf("Watchpoint %d: %s\n", temp_watchpoint->NO, line_cmd);
-    }
-    else{
-        printf("Invalid Expression\n");
-    }
-    return 0;
-}
-
-static int cmd_d(char *args){
-    char line_cmd[80] = "\0";
-    while(true){
-        char *arg = strtok(NULL, " ");
-        if(arg == NULL) break;
-        if(strlen(arg) + strlen(line_cmd) > 80){
-            printf("Buffer Overflow.\n");
-            return 0;
-        }
-        strcat(line_cmd, arg);
-    }
-    bool success;
-    uint32_t ans = expr(line_cmd, &success);
-    if(success == true){
-        free_wp(ans);
-    }
-    else{
-        printf("Invalid Command\n");
-    }
-    return 0;
-}
-
-static int cmd_math(char *args){
-    char line_cmd[80]="\0";
-    while(true){
-        char *arg=strtok(NULL, " ");
-        if(arg == NULL) break;
-        if(strlen(arg) + strlen(line_cmd) > 80){
-            printf("Buffer Overflow\n");
-            return 0;
-        }
-        strcat(line_cmd, arg);
-    }
-    bool success;
-    uint32_t ans = expr(line_cmd, &success);
-    if(success == true){
-        printf("Dec result = %d\nHex result = %#x\n", ans, ans);
-    }
-    else printf("Invalid Command.\n");
-    return 0;
 }
 
 void ui_mainloop(int is_batch_mode) {
