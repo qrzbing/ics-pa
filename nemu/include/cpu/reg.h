@@ -15,47 +15,50 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  */
 
 typedef struct {
-    // gpr
-    union{
-        union {
-        uint32_t _32;
-        uint16_t _16;
-        uint8_t _8[2];
+  union {
+    union {
+      uint32_t _32;
+      uint16_t _16;
+      uint8_t _8[2];
     } gpr[8];
 
-  /* Do NOT change the order of the GPRs' definitions. */
+    /* Do NOT change the order of the GPRs' definitions. */
 
-  /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
-   * in PA2 able to directly access these registers.
-   */
-        struct{
-            rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-        };
-    };
-    vaddr_t eip;
-    // eflags
-    union{
-        struct{
-            uint32_t CF:1;
-            uint32_t pad1:1;
-            uint32_t pad2:4;
-            uint32_t ZF:1;
-            uint32_t SF:1;
-            uint32_t pad3:1;
-            uint32_t IF:1;
-            uint32_t pad4:1;
-            uint32_t OF:1;
-        };
-        rtlreg_t eflags;
-    };
-    // idt
-    // idtr
+    /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
+     * in PA2 able to directly access these registers.
+     */
     struct {
-        uint32_t base;
-        uint16_t limit;
-    } idtr;
-    // cs
-    uint16_t cs;
+      rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+    };
+  };
+
+  union {
+    struct {
+      int32_t CF         :1;
+      int32_t padding0   :1;
+      int32_t PF         :1;
+      int32_t padding1   :1;
+      int32_t AF         :1;
+      int32_t padding2   :1;
+      int32_t ZF         :1;
+      int32_t SF         :1;
+      int32_t TF         :1;
+      int32_t IF         :1;
+      int32_t DF         :1;
+      int32_t OF         :1;
+    };
+    rtlreg_t eflags;
+
+  };
+
+  struct {
+    uint16_t limit;
+    uint32_t base;
+  } idtr;
+  uint16_t cs;
+
+  vaddr_t eip;
+
 } CPU_state;
 
 extern CPU_state cpu;
