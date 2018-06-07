@@ -2,7 +2,6 @@
 #define __REG_H__
 
 #include "common.h"
-#include "memory/mmu.h"
 
 enum { R_EAX, R_ECX, R_EDX, R_EBX, R_ESP, R_EBP, R_ESI, R_EDI };
 enum { R_AX, R_CX, R_DX, R_BX, R_SP, R_BP, R_SI, R_DI };
@@ -16,54 +15,47 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  */
 
 typedef struct {
-  union {
-    union {
-      uint32_t _32;
-      uint16_t _16;
-      uint8_t _8[2];
+    // gpr
+    union{
+        union {
+        uint32_t _32;
+        uint16_t _16;
+        uint8_t _8[2];
     } gpr[8];
 
-    /* Do NOT change the order of the GPRs' definitions. */
+  /* Do NOT change the order of the GPRs' definitions. */
 
-    /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
-     * in PA2 able to directly access these registers.
-     */
-    struct {
-      rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+  /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
+   * in PA2 able to directly access these registers.
+   */
+        struct{
+            rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+        };
     };
-  };
-
-  union {
-    struct {
-      int32_t CF         :1;
-      int32_t padding0   :1;
-      int32_t PF         :1;
-      int32_t padding1   :1;
-      int32_t AF         :1;
-      int32_t padding2   :1;
-      int32_t ZF         :1;
-      int32_t SF         :1;
-      int32_t TF         :1;
-      int32_t IF         :1;
-      int32_t DF         :1;
-      int32_t OF         :1;
+    vaddr_t eip;
+    // eflags
+    union{
+        struct{
+            uint32_t CF:1;
+            uint32_t pad1:1;
+            uint32_t pad2:4;
+            uint32_t ZF:1;
+            uint32_t SF:1;
+            uint32_t pad3:1;
+            uint32_t IF:1;
+            uint32_t pad4:1;
+            uint32_t OF:1;
+        };
+        rtlreg_t eflags;
     };
-    rtlreg_t eflags;
-  };
-
-  bool INTR;
-
-  struct {
-    uint16_t limit;
-    uint32_t base;
-  } idtr;
-  uint16_t cs;
-
-  CR0 cr0;
-  CR3 cr3;
-
-  vaddr_t eip;
-
+    // idt
+    // idtr
+    struct {
+        uint32_t base;
+        uint16_t limit;
+    } idtr;
+    // cs
+    uint16_t cs;
 } CPU_state;
 
 extern CPU_state cpu;
