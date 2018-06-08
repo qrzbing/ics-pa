@@ -31,11 +31,11 @@ void dispinfo_read(void *buf, off_t offset, size_t len) {
 }
 
 void fb_write(const void *buf, off_t offset, size_t len) {
-    int row, col;
+    int y, x;
     offset /= 4;
-    col = offset % _screen.width;
-    row = offset / _screen.width;
-    _draw_rect(buf, col, row, len/4, 1);
+    x = offset % _screen.width;
+    y = offset / _screen.width;
+    _draw_rect(buf, x, y, len/4, 1);
 
 }
 
