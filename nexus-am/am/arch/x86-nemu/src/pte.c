@@ -66,6 +66,22 @@ void _switch(_Protect *p) {
 }
 
 void _map(_Protect *p, void *va, void *pa) {
+  /* get pde address */
+  PDE *pg_dir = p->ptr;  // base pde dir
+  /* select a pde */
+  PDE *pde = &pg_dir[PDX(va)];
+  PTE *pgtable;
+  /* if a new page table is needed */
+  if(*pde & PTE_P){ // 
+    pgtable = (PTE *)(PTE_ADDR(*pde));
+  }
+  else{
+    pgtable = (PTE *)(palloc_f());
+    for(int i =0; i < NR_PTE; i ++){
+      pgtable[i] = 0;
+    }
+  }
+  pgtable[(PTX(va))] = PTE_ADDR(pa) | PTE_P;
 }
 
 void _unmap(_Protect *p, void *va) {
