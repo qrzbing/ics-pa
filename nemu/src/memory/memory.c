@@ -60,7 +60,7 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
     /* flag equals to true means data cross the page boundry */
     if(flag == true){
         /* this is a special case, you can handle it later. */
-        Log("addr = %#x, len = %#x, cpu.cr0 = %#x", addr, len, cpu.cr0.val);
+        Log("addr = %#x, len = %#x", addr, len);
         panic("data cross the page boundry");
     }
     else{
@@ -73,7 +73,7 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
     bool flag = ((addr + len - 1) & (~PAGE_MASK)) != (addr & (~PAGE_MASK));
     if(flag == true){
-        Log("addr = %#x, len = %#x, cpu.cr0 = %#x", addr, len, cpu.cr0.val);
+        Log("addr = %#x, len = %#x", addr, len);
         panic("data cross the page boundry");
     }
     else{
