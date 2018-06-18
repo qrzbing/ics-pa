@@ -59,19 +59,28 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
     bool flag = ((addr + len - 1) & (~PAGE_MASK)) != (addr & (~PAGE_MASK));
     /* flag equals to true means data cross the page boundry */
     if(flag == true){
-        /* this is a special case, you can handle it later. */
-        /* len of instruction 1 */
-        int len1 = PAGE_SIZE - (addr & 0x3ff);
-        /* len of instruction 2 */
+        // /* this is a special case, you can handle it later. */
+        // /* len of instruction 1 */
+        // int len1 = PAGE_SIZE - (addr & 0x3ff);
+        // /* len of instruction 2 */
+        // int len2 = len - len1;
+        // /* read instruction 1 and 2 addr from page table */
+        // paddr_t addr1 = page_translate(addr, false);
+        // paddr_t addr2 = page_translate(addr + len1, false);
+        // /* read instruction 1 and 2 value from addr */
+        // uint32_t val1 = paddr_read(addr1, len1);
+        // uint32_t val2 = paddr_read(addr2, len2);
+        // /* concat val1 and val2 */
+        // return val1 | val2 << (len1 << 3);
+        int len1 = 4096 - (addr & 0xfff);
         int len2 = len - len1;
-        /* read instruction 1 and 2 addr from page table */
-        paddr_t addr1 = page_translate(addr, false);
-        paddr_t addr2 = page_translate(addr + len1, false);
-        /* read instruction 1 and 2 value from addr */
-        uint32_t val1 = paddr_read(addr1, len1);
-        uint32_t val2 = paddr_read(addr2, len2);
-        /* concat val1 and val2 */
-        return val1 | val2 << (len1 << 3);
+        vaddr_t addr1 = page_translate(addr, false);
+        vaddr_t addr2 = page_translate(addr + len1, false);
+        uint32_t ret1 = paddr_read(addr1, len1);
+        uint32_t ret2 = paddr_read(addr2, len2);
+        uint32_t ans = ret1 | (ret2 << (len1 << 3));
+        //printf("ans = %08X\n", ans);
+        return ans;
         }
     else{
         paddr_t paddr = page_translate(addr, false);
