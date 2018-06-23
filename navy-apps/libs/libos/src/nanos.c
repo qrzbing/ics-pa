@@ -36,12 +36,13 @@ void *_sbrk(intptr_t increment){
     // return (void *)-1;
     static void *program_break = (void *)&end;
 
+    void *old_program_break = program_break;
+    program_break += increment;
     if(_syscall_(SYS_brk, 0, 0, 0) == 0){
-        void *old_program_break = program_break;
-        program_break += increment;
         return old_program_break;
     }
-    return (void *)-1;
+    panic("error sbrk");
+    // return (void *)-1;
 }
 
 int _read(int fd, void *buf, size_t count) {
