@@ -80,6 +80,7 @@ void _map(_Protect *p, void *va, void *pa) {
     for(int i =0; i < NR_PTE; i ++){
       pgtable[i] = 0;
     }
+    *pde = PTE_ADDR(pgtable) | PTE_P;
   }
   pgtable[(PTX(va))] = PTE_ADDR(pa) | PTE_P;
 // PDE *pde, *pgdir = p->ptr;
