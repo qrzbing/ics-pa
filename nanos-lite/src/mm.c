@@ -29,7 +29,12 @@ int mm_brk(uint32_t new_brk)
     {
       //	TODO:	map	memory	region	[current->max_brk,	new_brk)
       //	into	address	space	current->as
-      current->max_brk = new_brk;
+      uintptr_t pa, va;
+      for (va = (current->max_brk + 0xfff) & ~0xfff; va < new_brk; va += PGSIZE) {
+        pa = (uintptr_t)new_page();
+        _map(&current->as, (void *)va, (void *)pa);
+      }
+      current->max_brk = va;
     }
     current->cur_brk = new_brk;
   }
