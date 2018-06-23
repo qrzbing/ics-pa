@@ -73,10 +73,10 @@ void _map(_Protect *p, void *va, void *pa) {
   PTE *pgtable;
   /* if a new page table is needed */
   if(*pde & PTE_P){ // 
-    pgtable = (PTE *)(PTE_ADDR(*pde));
+    pgtable = (PTE *)PTE_ADDR(*pde);
   }
   else{
-    pgtable = (PTE *)(palloc_f());
+    pgtable = (PTE *)palloc_f();
     for(int i =0; i < NR_PTE; i ++){
       pgtable[i] = 0;
     }
