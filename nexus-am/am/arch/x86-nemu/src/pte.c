@@ -83,20 +83,7 @@ void _map(_Protect *p, void *va, void *pa) {
     *pde = PTE_ADDR(pgtable) | PTE_P;
   }
   pgtable[(PTX(va))] = PTE_ADDR(pa) | PTE_P;
-// PDE *pde, *pgdir = p->ptr;
-//   PTE *pgtab;
 
-//   pde = &pgdir[PDX(va)];
-//   if (*pde & PTE_P) {
-//     pgtab = (PTE *)PTE_ADDR(*pde);
-//   } else {
-//     pgtab = (PTE *)palloc_f();
-//     for (int i = 0; i < NR_PTE; i ++) {
-//       pgtab[i] = 0;
-//     }
-//     *pde = PTE_ADDR(pgtab) | PTE_P;
-//   }
-//   pgtab[PTX(va)] = PTE_ADDR(pa) | PTE_P;
 }
 
 void _unmap(_Protect *p, void *va) {
