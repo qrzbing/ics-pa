@@ -41,7 +41,7 @@ void *_sbrk(intptr_t increment){
     if(_syscall_(SYS_brk, (intptr_t)program_break, 0, 0) == 0){
         return old_program_break;
     }
-    panic("error sbrk");
+    assert(0);
     // return (void *)-1;
 }
 
