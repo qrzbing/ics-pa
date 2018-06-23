@@ -22,7 +22,7 @@ uintptr_t loader(_Protect *as, const char *filename) {
         pa = new_page();
         _map(as, va, pa);
         fs_read(fd, pa, (fz_end - va) < PGSIZE ? (fz_end - va) : PGSIZE);
-        Log("va: %#x, pa: %#x", va, pa);
+        // Log("va: %#x, pa: %#x", va, pa);
     }
     // fs_read(fd, DEFAULT_ENTRY, len);
     return (uintptr_t)DEFAULT_ENTRY;
